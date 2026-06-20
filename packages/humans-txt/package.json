@@ -1,0 +1,59 @@
+{
+	"name": "@goobits/humans-txt",
+	"version": "0.1.0",
+	"description": "Reusable humans.txt data model and terminal-style Svelte UI",
+	"type": "module",
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"sideEffects": [
+		"**/*.scss"
+	],
+	"exports": {
+		".": "./src/index.ts",
+		"./core": "./src/core.ts",
+		"./ui": "./src/ui.ts",
+		"./ui/HumansTxtPage.svelte": "./src/ui/HumansTxtPage.svelte"
+	},
+	"keywords": [
+		"humans.txt",
+		"svelte",
+		"sveltekit",
+		"website",
+		"credits"
+	],
+	"author": "Goobits",
+	"license": "MIT",
+	"homepage": "https://github.com/goobits/site-primitives/tree/main/packages/humans-txt#readme",
+	"bugs": "https://github.com/goobits/site-primitives/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/goobits/site-primitives.git",
+		"directory": "packages/humans-txt"
+	},
+	"engines": {
+		"node": ">=22"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0",
+		"typescript": "^5.0.0"
+	},
+	"peerDependenciesMeta": {
+		"svelte": {
+			"optional": true
+		},
+		"typescript": {
+			"optional": true
+		}
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.0.0",
+		"typescript": "^5.9.0",
+		"vitest": "^4.0.0"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit && svelte-check --workspace src/ui --fail-on-warnings",
+		"test": "vitest run"
+	}
+}

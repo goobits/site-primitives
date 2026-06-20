@@ -1,0 +1,36 @@
+/**
+ * Runtime-agnostic surface: types, filter/sort, audience mapping. Safe to
+ * import from any module (server, client, edge, build script).
+ *
+ * @module @goobits/sitemap/core
+ */
+
+export {
+	type ApiEntryOverrides,
+	computeRouteStats,
+	createApiEntry,
+	createPageEntry,
+	createRouteInventory,
+	groupRoutesByCategory,
+	type PageEntryOverrides } from './core/builders.ts'
+export type {
+	ApiRouteEntry,
+	HumanSitemapVisibility,
+	PageRouteEntry,
+	RouteInventory,
+	RouteInventoryStats,
+	SitemapAudience,
+	SitemapChangeFreq,
+	SitemapEntry,
+	SitemapRoute,
+	SitemapSort
+} from './core/types.ts'
+export {
+	baseSitemapTags,
+	getFilteredSitemapCount,
+	getFilteredSitemapGroups,
+	getRouteTags,
+	getSitemapAudiencesForVisibility,
+	getSitemapAvailableTags,
+	internalSitemapTags
+} from './core/viewmodel.ts'

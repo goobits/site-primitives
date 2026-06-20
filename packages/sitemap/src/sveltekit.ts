@@ -1,0 +1,22 @@
+/**
+ * SvelteKit-specific helpers: `+server.ts` factories for the standard
+ * `sitemap.xml` + `robots.txt` endpoints, and a route scanner that
+ * derives entries from a Vite `import.meta.glob` result so you don't
+ * have to hand-maintain the inventory.
+ *
+ * Requires `@sveltejs/kit ^2` at the consumer level (declared as an
+ * optional peer; consumers using only `/core`, `/server`, `/ops`, or
+ * `/ui` don't pay for it).
+ *
+ * @module @goobits/sitemap/sveltekit
+ */
+
+export {
+	createRobotsTxtHandler,
+	createSitemapXmlHandler,
+	type RobotsTxtHandlerOptions,
+	type SitemapXmlHandlerOptions } from './sveltekit/handlers.ts'
+export {
+	type GlobResult,
+	scanSvelteKitRoutes,
+	type ScanSvelteKitRoutesOptions } from './sveltekit/scanner.ts'

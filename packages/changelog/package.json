@@ -1,0 +1,58 @@
+{
+	"name": "@goobits/changelog",
+	"version": "0.1.0",
+	"description": "Reusable changelog data model and Svelte timeline UI",
+	"type": "module",
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"sideEffects": [
+		"**/*.svelte"
+	],
+	"exports": {
+		".": "./src/index.ts",
+		"./core": "./src/core.ts",
+		"./ui": "./src/ui.ts",
+		"./ui/ChangelogPage.svelte": "./src/ui/ChangelogPage.svelte"
+	},
+	"keywords": [
+		"changelog",
+		"release-notes",
+		"svelte",
+		"sveltekit"
+	],
+	"author": "Goobits",
+	"license": "MIT",
+	"homepage": "https://github.com/goobits/site-primitives/tree/main/packages/changelog#readme",
+	"bugs": "https://github.com/goobits/site-primitives/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/goobits/site-primitives.git",
+		"directory": "packages/changelog"
+	},
+	"engines": {
+		"node": ">=22"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0",
+		"typescript": "^5.0.0"
+	},
+	"peerDependenciesMeta": {
+		"svelte": {
+			"optional": true
+		},
+		"typescript": {
+			"optional": true
+		}
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.0.0",
+		"typescript": "^5.9.0",
+		"vitest": "^4.0.0"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit && svelte-check --workspace src/ui --fail-on-warnings",
+		"test": "vitest run"
+	}
+}

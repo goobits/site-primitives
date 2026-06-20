@@ -1,0 +1,210 @@
+// Terminal theme colors
+$terminal-bg: #282a36;
+$terminal-header: #1d1f27;
+$terminal-text: #f8f8f2;
+$terminal-green: #50fa7b;
+$terminal-purple: #bd93f9;
+$terminal-yellow: #f1fa8c;
+$terminal-pink: #ff79c6;
+$terminal-blue: #8be9fd;
+$terminal-comment: #6272a4;
+
+// Button colors
+$close-btn: #ff5f56;
+$minimize-btn: #ffbd2e;
+$maximize-btn: #27c93f;
+
+.terminal {
+  &__page-white {
+    border-top: 1px solid #222;
+    background: black;
+    padding: 0 2rem 1rem;
+  }
+
+  &__about-links {
+    color: #555;
+    margin-bottom: 0;
+
+    a {
+      color: #bbb;
+    }
+  }
+
+  &__container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+.terminal-window {
+  background: $terminal-bg;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.45),
+    0 10px 28px rgba(0, 0, 0, 0.28),
+    0 3px 14px rgba(0, 0, 0, 0.35);
+  color: $terminal-text;
+  overflow: hidden;
+  isolation: isolate;
+
+  &__header {
+    background: $terminal-header;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px 14px 0 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1rem;
+  }
+
+  &__button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+
+    &--close {
+      background: $close-btn;
+    }
+
+    &--minimize {
+      background: $minimize-btn;
+    }
+
+    &--maximize {
+      background: $maximize-btn;
+    }
+  }
+
+  &__title {
+    color: $terminal-text;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+}
+
+.terminal-content {
+  padding: 1rem;
+  color: $terminal-text;
+  font-family: "Monaco", "Consolas", monospace;
+  overflow: auto;
+
+  &__command-line {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  &__prompt {
+    color: $terminal-green;
+  }
+
+  &__path {
+    color: $terminal-blue;
+  }
+
+  &__section {
+    margin: 1.5rem 0;
+  }
+
+  &__indent {
+    margin-left: 2rem;
+  }
+
+  &__ascii-art {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: $terminal-green;
+    margin: 1rem 0;
+    padding: 0;
+    line-height: 1.2;
+    white-space: pre;
+  }
+}
+
+.terminal-window .terminal-content__ascii-art {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 1rem 0 !important;
+  padding: 0 !important;
+}
+
+// Syntax highlighting
+.syntax {
+  &__comment {
+    color: $terminal-comment;
+    white-space: pre;
+
+    &--inline {
+      white-space: normal;
+    }
+  }
+
+  &__keyword {
+    color: $terminal-pink;
+  }
+
+  &__function {
+    color: $terminal-green;
+  }
+
+  &__variable {
+    color: $terminal-blue;
+  }
+
+  &__string {
+    color: $terminal-yellow;
+  }
+
+  &__path {
+    color: $terminal-purple;
+
+    a {
+      color: $terminal-purple;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__operator {
+    color: $terminal-pink;
+
+    a {
+      color: $terminal-pink;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Cursor animation
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1rem;
+  background: $terminal-text;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
