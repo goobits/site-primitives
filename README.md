@@ -35,6 +35,8 @@ Then depend on the packages from the consuming app:
 
 The packages are source-only ESM. Consumers need tooling that can compile
 TypeScript package exports, such as SvelteKit or another Vite-based app.
+UI package styles are Svelte component-scoped; consumers do not need Sass for
+`@goobits/humans-txt` or `@goobits/changelog`.
 
 ## Development
 

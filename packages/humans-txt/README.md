@@ -50,6 +50,9 @@ const humans: HumansTxtModel = {
 The consuming site owns the people, library credits, URLs, and copy. This
 package owns only the shared data model and rendering component.
 
+The component ships plain Svelte-scoped CSS with `--gb-humans-txt-*` custom
+properties. Consumers do not need Sass.
+
 ## Svelte Usage
 
 ```svelte
