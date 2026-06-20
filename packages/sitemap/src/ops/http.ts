@@ -6,7 +6,7 @@
  * @internal
  */
 
-export type RetryOptions = {
+type HttpRetryOptions = {
 	retries?: number
 	delayMs?: number
 	shouldRetry?: (error: unknown) => boolean
@@ -41,7 +41,7 @@ export async function fetchWithTimeout(
  * @param task - task value.
  * @param options - Options for this operation.
  */
-export async function retry<T>(task: () => Promise<T>, options: RetryOptions = {}): Promise<T> {
+export async function retry<T>(task: () => Promise<T>, options: HttpRetryOptions = {}): Promise<T> {
 	const retries = Math.max(0, options.retries ?? 1)
 	const delayMs = Math.max(0, options.delayMs ?? 200)
 	const shouldRetry = options.shouldRetry ?? (() => true)
@@ -50,10 +50,10 @@ export async function retry<T>(task: () => Promise<T>, options: RetryOptions = {
 	for (let attempt = 0; attempt <= retries; attempt++) {
 		try {
 			return await task()
-		} catch(error) {
+		} catch (error) {
 			lastError = error
 			if (attempt === retries || !shouldRetry(error)) break
-			if (delayMs > 0) await new Promise(resolve => setTimeout(resolve, delayMs))
+			if (delayMs > 0) await new Promise((resolve) => setTimeout(resolve, delayMs))
 		}
 	}
 	throw lastError

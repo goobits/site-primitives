@@ -14,9 +14,12 @@
 export {
 	createRobotsTxtHandler,
 	createSitemapXmlHandler,
+	type RobotsTxtLinesContext,
 	type RobotsTxtHandlerOptions,
-	type SitemapXmlHandlerOptions } from './sveltekit/handlers.ts'
+	type SitemapXmlHandlerOptions
+} from './sveltekit/handlers.ts'
 export {
 	type GlobResult,
 	scanSvelteKitRoutes,
-	type ScanSvelteKitRoutesOptions } from './sveltekit/scanner.ts'
+	type ScanSvelteKitRoutesOptions
+} from './sveltekit/scanner.ts'

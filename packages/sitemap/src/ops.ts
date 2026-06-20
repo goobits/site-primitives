@@ -11,12 +11,14 @@ export {
 	type PingLogger,
 	pingSearchEngines,
 	type PingSearchEnginesOptions,
+	type RetryOptions,
 	type SearchEnginePingTarget,
-	type SitemapPingResult } from './ops/ping.ts'
-export type { RetryOptions } from './ops/http.ts'
+	type SitemapPingResult
+} from './ops/ping.ts'
 export {
 	type SitemapUrlHeadResult,
 	type SitemapValidationResult,
 	type ValidateLogger,
 	validateSitemapUrls,
-	type ValidateSitemapUrlsOptions } from './ops/validate.ts'
+	type ValidateSitemapUrlsOptions
+} from './ops/validate.ts'

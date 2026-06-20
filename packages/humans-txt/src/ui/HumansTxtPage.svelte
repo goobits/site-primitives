@@ -5,34 +5,34 @@
 		ascii = '',
 		team = [],
 		contributors = {},
-			libraries = [],
-			terminalTitle = 'Website Terminal - zsh',
-			terminalPath = 'site:~/public',
-			teamDescription = "Core team members behind the site's development and design.",
-			contributorDescription = 'Contributors lending expertise to design and user experience.',
-			headTitle = 'Humans.txt',
-			class: className = ''
-		}: {
-			ascii?: string
-			team?: HumansTxtPerson[]
-			contributors?: HumansTxtContributorGroups
-			libraries?: HumansTxtLibrary[]
-			terminalTitle?: string
-			terminalPath?: string
-			teamDescription?: string
-			contributorDescription?: string
-			headTitle?: string | null
-			class?: string
-		} = $props()
-	</script>
+		libraries = [],
+		terminalTitle = 'Website Terminal - zsh',
+		terminalPath = 'site:~/public',
+		teamDescription = "Core team members behind the site's development and design.",
+		contributorDescription = 'Contributors lending expertise to design and user experience.',
+		headTitle = 'Humans.txt',
+		class: className = ''
+	}: {
+		ascii?: string
+		team?: HumansTxtPerson[]
+		contributors?: HumansTxtContributorGroups
+		libraries?: HumansTxtLibrary[]
+		terminalTitle?: string
+		terminalPath?: string
+		teamDescription?: string
+		contributorDescription?: string
+		headTitle?: string | null
+		class?: string
+	} = $props()
+</script>
 
-	<svelte:head>
-		{#if headTitle}
-			<title>{headTitle}</title>
-		{/if}
-	</svelte:head>
+<svelte:head>
+	{#if headTitle}
+		<title>{headTitle}</title>
+	{/if}
+</svelte:head>
 
-	<section class={[ 'gb-humans-txt', className ].filter(Boolean).join(' ')}>
+<section class={[ 'gb-humans-txt', className ].filter(Boolean).join(' ')}>
 	<div class="gb-humans-txt__container">
 		<div class="gb-humans-txt-window">
 			<header class="gb-humans-txt-window__header">
@@ -174,30 +174,30 @@
 </section>
 
 <style>
-		.gb-humans-txt__container {
-			margin: 0 auto;
-			max-width: 960px;
-		}
+	.gb-humans-txt__container {
+		margin: 0 auto;
+		max-width: 960px;
+	}
 
-		.gb-humans-txt-window {
-			background: var(--gb-humans-txt-bg, #282a36);
-			border: 1px solid rgba(255, 255, 255, 0.08);
-			border-radius: 14px;
-			box-shadow:
+	.gb-humans-txt-window {
+		background: var(--gb-humans-txt-bg, #282a36);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 14px;
+		box-shadow:
 			0 22px 60px rgba(0, 0, 0, 0.45),
 			0 10px 28px rgba(0, 0, 0, 0.28),
 			0 3px 14px rgba(0, 0, 0, 0.35);
-			color: var(--gb-humans-txt-text, #f8f8f2);
-			isolation: isolate;
-			overflow: hidden;
-		}
+		color: var(--gb-humans-txt-text, #f8f8f2);
+		isolation: isolate;
+		overflow: hidden;
+	}
 
-		.gb-humans-txt-window__header {
-			align-items: center;
-			background: var(--gb-humans-txt-header, #1d1f27);
-			border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-			border-radius: 14px 14px 0 0;
-			display: flex;
+	.gb-humans-txt-window__header {
+		align-items: center;
+		background: var(--gb-humans-txt-header, #1d1f27);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		border-radius: 14px 14px 0 0;
+		display: flex;
 		padding: 0.5rem 1rem;
 	}
 
@@ -213,29 +213,29 @@
 		width: 12px;
 	}
 
-		.gb-humans-txt-window__button--close {
-			background: var(--gb-humans-txt-close, #ff5f56);
-		}
+	.gb-humans-txt-window__button--close {
+		background: var(--gb-humans-txt-close, #ff5f56);
+	}
 
-		.gb-humans-txt-window__button--minimize {
-			background: var(--gb-humans-txt-minimize, #ffbd2e);
-		}
+	.gb-humans-txt-window__button--minimize {
+		background: var(--gb-humans-txt-minimize, #ffbd2e);
+	}
 
-		.gb-humans-txt-window__button--maximize {
-			background: var(--gb-humans-txt-maximize, #27c93f);
-		}
+	.gb-humans-txt-window__button--maximize {
+		background: var(--gb-humans-txt-maximize, #27c93f);
+	}
 
-		.gb-humans-txt-window__title {
-			color: var(--gb-humans-txt-text, #f8f8f2);
-			font-size: 0.9rem;
-			opacity: 0.8;
-		}
+	.gb-humans-txt-window__title {
+		color: var(--gb-humans-txt-text, #f8f8f2);
+		font-size: 0.9rem;
+		opacity: 0.8;
+	}
 
-		.gb-humans-txt-content {
-			color: var(--gb-humans-txt-text, #f8f8f2);
-			font-family: Monaco, Consolas, monospace;
-			overflow: auto;
-			padding: 1rem;
+	.gb-humans-txt-content {
+		color: var(--gb-humans-txt-text, #f8f8f2);
+		font-family: Monaco, Consolas, monospace;
+		overflow: auto;
+		padding: 1rem;
 	}
 
 	.gb-humans-txt-content__command-line {
@@ -245,9 +245,9 @@
 		margin-bottom: 1rem;
 	}
 
-		.gb-humans-txt-content__path {
-			color: var(--gb-humans-txt-blue, #8be9fd);
-		}
+	.gb-humans-txt-content__path {
+		color: var(--gb-humans-txt-blue, #8be9fd);
+	}
 
 	.gb-humans-txt-content__section {
 		margin: 1.5rem 0;
@@ -257,43 +257,43 @@
 		margin-left: 2rem;
 	}
 
-		.gb-humans-txt-content__ascii-art {
-			background: transparent;
-			border: 0;
-			border-radius: 0;
-			box-shadow: none;
-			color: var(--gb-humans-txt-green, #50fa7b);
-			line-height: 1.2;
-			margin: 1rem 0;
-			padding: 0;
+	.gb-humans-txt-content__ascii-art {
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		color: var(--gb-humans-txt-green, #50fa7b);
+		line-height: 1.2;
+		margin: 1rem 0;
+		padding: 0;
 		white-space: pre;
 	}
 
-		.gb-humans-txt-syntax__comment {
-			color: var(--gb-humans-txt-comment, #6272a4);
-			white-space: pre;
-		}
+	.gb-humans-txt-syntax__comment {
+		color: var(--gb-humans-txt-comment, #6272a4);
+		white-space: pre;
+	}
 
-		.gb-humans-txt-syntax__keyword,
-		.gb-humans-txt-syntax__operator {
-			color: var(--gb-humans-txt-pink, #ff79c6);
-		}
+	.gb-humans-txt-syntax__keyword,
+	.gb-humans-txt-syntax__operator {
+		color: var(--gb-humans-txt-pink, #ff79c6);
+	}
 
-		.gb-humans-txt-syntax__function {
-			color: var(--gb-humans-txt-green, #50fa7b);
-		}
+	.gb-humans-txt-syntax__function {
+		color: var(--gb-humans-txt-green, #50fa7b);
+	}
 
-		.gb-humans-txt-syntax__variable {
-			color: var(--gb-humans-txt-blue, #8be9fd);
-		}
+	.gb-humans-txt-syntax__variable {
+		color: var(--gb-humans-txt-blue, #8be9fd);
+	}
 
-		.gb-humans-txt-syntax__string {
-			color: var(--gb-humans-txt-yellow, #f1fa8c);
-		}
+	.gb-humans-txt-syntax__string {
+		color: var(--gb-humans-txt-yellow, #f1fa8c);
+	}
 
-		.gb-humans-txt-syntax__path {
-			color: var(--gb-humans-txt-purple, #bd93f9);
-		}
+	.gb-humans-txt-syntax__path {
+		color: var(--gb-humans-txt-purple, #bd93f9);
+	}
 
 	.gb-humans-txt-syntax__path a,
 	.gb-humans-txt-syntax__operator a {
@@ -306,11 +306,11 @@
 		text-decoration: underline;
 	}
 
-		.gb-humans-txt__cursor {
-			animation: gb-humans-txt-blink 1s step-end infinite;
-			background: var(--gb-humans-txt-text, #f8f8f2);
-			display: inline-block;
-			height: 1rem;
+	.gb-humans-txt__cursor {
+		animation: gb-humans-txt-blink 1s step-end infinite;
+		background: var(--gb-humans-txt-text, #f8f8f2);
+		display: inline-block;
+		height: 1rem;
 		margin-left: 2px;
 		width: 8px;
 	}

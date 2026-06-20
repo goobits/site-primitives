@@ -26,12 +26,12 @@ preprocessor, no `@goobits/ui` dependency.
 	import {
 		getFilteredSitemapCount,
 		getFilteredSitemapGroups,
-			getRouteTags,
-			getSitemapAvailableTags,
-			getVisibleSitemapGroups,
-			type HumanSitemapVisibility,
-			type RouteInventoryStats,
-			type SitemapEntry,
+		getRouteTags,
+		getSitemapAvailableTags,
+		getVisibleSitemapGroups,
+		type HumanSitemapVisibility,
+		type RouteInventoryStats,
+		type SitemapEntry,
 		type SitemapSort
 	} from '../core.ts'
 	import type { CategoryMeta, SortOption } from './types.ts'
@@ -128,13 +128,12 @@ preprocessor, no `@goobits/ui` dependency.
 	let visibility = $state<HumanSitemapVisibility>(untrack(() => defaultVisibility))
 	let collapsed = $state<Record<string, boolean>>({})
 
-		const visibleGrouped = $derived(
-			getVisibleSitemapGroups(data.grouped, visibility, canViewInternalRoutes)
-		)
-
-		const filteredGrouped = $derived(getFilteredSitemapGroups(visibleGrouped, query, selectedTags, sortBy))
-		const filteredCount = $derived(getFilteredSitemapCount(filteredGrouped))
-		const totalCount = $derived(getFilteredSitemapCount(visibleGrouped))
+	const visibleGrouped = $derived(
+		getVisibleSitemapGroups(data.grouped, visibility, canViewInternalRoutes)
+	)
+	const filteredGrouped = $derived(getFilteredSitemapGroups(visibleGrouped, query, selectedTags, sortBy))
+	const filteredCount = $derived(getFilteredSitemapCount(filteredGrouped))
+	const totalCount = $derived(getFilteredSitemapCount(visibleGrouped))
 	const availableTags = $derived(getSitemapAvailableTags(canViewInternalRoutes))
 	const orderedCategoryEntries = $derived.by(() => {
 		const known = categoryOrder.filter((cat) => cat in filteredGrouped)
