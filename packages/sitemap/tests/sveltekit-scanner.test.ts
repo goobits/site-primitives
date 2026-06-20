@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { scanSvelteKitRoutes } from '../src/sveltekit/scanner.js'
+import { scanSvelteKitRoutes } from '@goobits/sitemap/sveltekit'
 
 const TS = '2026-05-21T00:00:00Z'
 

@@ -1,7 +1,7 @@
 import { render } from 'svelte/server'
 import { describe, expect, it } from 'vitest'
 
-import ChangelogPage from '../src/ui/ChangelogPage.svelte'
+import { ChangelogPage } from '@goobits/changelog/ui'
 
 describe('ChangelogPage', () => {
 	it('renders grouped changes and supports embedded mode', () => {

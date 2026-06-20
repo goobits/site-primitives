@@ -6,7 +6,7 @@ import {
 	createPageEntry,
 	createRouteInventory,
 	groupRoutesByCategory
-} from '../src/core/builders.js'
+} from '@goobits/sitemap/core'
 
 const TS = '2026-05-21T00:00:00Z'
 

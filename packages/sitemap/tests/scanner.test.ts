@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { scanSvelteKitRoutes } from '../src/sveltekit/scanner.js'
+import { scanSvelteKitRoutes } from '@goobits/sitemap/sveltekit'
 
 describe('scanSvelteKitRoutes', () => {
 	it('derives static page routes from SvelteKit page globs', () => {

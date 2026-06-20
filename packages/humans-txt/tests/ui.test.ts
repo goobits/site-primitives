@@ -1,7 +1,7 @@
 import { render } from 'svelte/server'
 import { describe, expect, it } from 'vitest'
 
-import HumansTxtPage from '../src/ui/HumansTxtPage.svelte'
+import { HumansTxtPage } from '@goobits/humans-txt/ui'
 
 describe('HumansTxtPage', () => {
 	it('renders the supplied credits with package-scoped classes', () => {

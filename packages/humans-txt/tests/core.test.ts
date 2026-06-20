@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isLastItem } from '../src/core.ts'
+import { isLastItem } from '@goobits/humans-txt/core'
 
 describe('isLastItem', () => {
 	it('detects the final item index', () => {

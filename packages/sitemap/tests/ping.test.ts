@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { HISTORICAL_PING_ENDPOINTS, pingSearchEngines } from '../src/ops/ping.js'
+import { HISTORICAL_PING_ENDPOINTS, pingSearchEngines } from '@goobits/sitemap/ops'
 
 const originalFetch = globalThis.fetch
 

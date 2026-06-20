@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { changesOfType, formatChangelogDate, formatChangelogVersion } from '../src/core.ts'
+import { changesOfType, formatChangelogDate, formatChangelogVersion } from '@goobits/changelog/core'
 
 describe('changelog core', () => {
 	it('filters changes by type', () => {

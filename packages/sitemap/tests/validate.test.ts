@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { validateSitemapUrls } from '../src/ops/validate.js'
+import { validateSitemapUrls } from '@goobits/sitemap/ops'
 
 const originalFetch = globalThis.fetch
 

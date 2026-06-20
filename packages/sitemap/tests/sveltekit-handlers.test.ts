@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { createRobotsTxtHandler, createSitemapXmlHandler } from '../src/sveltekit/handlers.js'
+import { createRobotsTxtHandler, createSitemapXmlHandler } from '@goobits/sitemap/sveltekit'
 
 let originalBaseUrl: string | undefined
 let originalPublicBaseUrl: string | undefined

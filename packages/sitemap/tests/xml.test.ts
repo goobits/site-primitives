@@ -9,7 +9,7 @@ import {
 	getPlatformEnv,
 	resolveSiteOrigin,
 	toAbsoluteUrl
-} from '../src/server/xml.js'
+} from '@goobits/sitemap/server'
 
 describe('escapeXml', () => {
 	it('escapes all five XML reserved characters', () => {
