@@ -8,6 +8,7 @@ import {
 	getRouteTags,
 	getSitemapAudiencesForVisibility,
 	getSitemapAvailableTags,
+	getVisibleSitemapGroups,
 	internalSitemapTags
 } from '@goobits/sitemap/core'
 
@@ -99,6 +100,28 @@ describe('getSitemapAudiencesForVisibility', () => {
 
 	it('expands internal to public + internal', () => {
 		expect(getSitemapAudiencesForVisibility('internal')).toEqual([ 'public', 'internal' ])
+	})
+})
+
+describe('getVisibleSitemapGroups', () => {
+	const grouped = {
+		Pages: [
+			makePage({ path: '/', sitemap: 'public' }),
+			makePage({ path: '/admin', sitemap: 'internal' })
+		],
+		Private: [ makePage({ path: '/draft', sitemap: 'hidden', category: 'Private' }) ]
+	}
+
+	it('keeps only public entries for public viewers', () => {
+		const result = getVisibleSitemapGroups(grouped, 'public', false)
+		expect(result['Pages']?.map(route => route.path)).toEqual([ '/' ])
+		expect(result['Private']).toBeUndefined()
+	})
+
+	it('keeps internal entries for authorized internal viewers', () => {
+		const result = getVisibleSitemapGroups(grouped, 'internal', true)
+		expect(result['Pages']?.map(route => route.path)).toEqual([ '/', '/admin' ])
+		expect(result['Private']).toBeUndefined()
 	})
 })
 

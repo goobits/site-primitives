@@ -32,5 +32,6 @@ export {
 	getRouteTags,
 	getSitemapAudiencesForVisibility,
 	getSitemapAvailableTags,
+	getVisibleSitemapGroups,
 	internalSitemapTags
 } from './core/viewmodel.ts'

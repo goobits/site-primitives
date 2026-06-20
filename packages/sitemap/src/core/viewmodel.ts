@@ -108,6 +108,32 @@ export function getFilteredSitemapGroups(
 }
 
 /**
+ * Filter grouped routes by viewer visibility before search/tag filtering.
+ * Public viewers see only public entries; internal viewers see both public and
+ * internal entries.
+ *
+ * @param grouped - Grouped route entries.
+ * @param visibility - Desired visibility.
+ * @param canViewInternalRoutes - Whether the viewer can see internal routes.
+ */
+export function getVisibleSitemapGroups(
+	grouped: Record<string, SitemapEntry[]>,
+	visibility: HumanSitemapVisibility,
+	canViewInternalRoutes: boolean
+) {
+	const audiences = getSitemapAudiencesForVisibility(
+		canViewInternalRoutes ? visibility : 'public'
+	)
+
+	const out: Record<string, SitemapEntry[]> = {}
+	for (const [ category, routes ] of Object.entries(grouped)) {
+		const filtered = routes.filter(route => audiences.includes(route.sitemap))
+		if (filtered.length > 0) out[category] = filtered
+	}
+	return out
+}
+
+/**
  * Sum of entries across all groups in a filtered mapping.
  *
  * @param grouped - Grouped route entries.
