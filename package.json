@@ -4,9 +4,6 @@
 	"description": "Reusable website primitives for sitemaps, humans.txt, changelogs, and public site metadata",
 	"private": true,
 	"type": "module",
-	"workspaces": [
-		"packages/*"
-	],
 	"scripts": {
 		"test": "pnpm -r --if-present test",
 		"typecheck": "pnpm -r --if-present typecheck",
