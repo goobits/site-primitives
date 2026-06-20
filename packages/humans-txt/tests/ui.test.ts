@@ -8,6 +8,7 @@ describe('HumansTxtPage', () => {
 		const { head, html } = render(HumansTxtPage, {
 			props: {
 				ascii: 'SITE',
+				class: 'example-humans',
 				team: [
 					{
 						role: 'creator',
@@ -27,10 +28,23 @@ describe('HumansTxtPage', () => {
 
 		expect(head).toContain('<title>Humans.txt</title>')
 		expect(html).toContain('class="gb-humans-txt')
+		expect(html).toContain('example-humans')
 		expect(html).toContain('Example Person')
 		expect(html).toContain('mailto:hello@example.com')
 		expect(html).toContain('@design')
 		expect(html).toContain('Svelte')
 		expect(html).not.toContain('class="terminal')
+	})
+
+	it('can leave document head ownership to the host route', () => {
+		const { head, html } = render(HumansTxtPage, {
+			props: {
+				headTitle: null,
+				team: [ { name: 'Example Person' } ]
+			}
+		})
+
+		expect(head).not.toContain('<title>')
+		expect(html).toContain('Example Person')
 	})
 })

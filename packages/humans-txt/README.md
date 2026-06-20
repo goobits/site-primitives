@@ -51,7 +51,9 @@ The consuming site owns the people, library credits, URLs, and copy. This
 package owns only the shared data model and rendering component.
 
 The component ships plain Svelte-scoped CSS with `--gb-humans-txt-*` custom
-properties. Consumers do not need Sass.
+properties. Set them on `:root`, a wrapping element, or the component's `class`;
+fallbacks live at each use site so inherited site tokens are not shadowed.
+Consumers do not need Sass.
 
 ## Svelte Usage
 
@@ -65,8 +67,13 @@ properties. Consumers do not need Sass.
   {...humans}
   terminalTitle="Example Terminal - zsh"
   terminalPath="example:~/public"
+  class="example-humans"
 />
 ```
+
+`HumansTxtPage` writes `<title>Humans.txt</title>` by default for existing
+drop-in usage. Pass `headTitle={null}` when the host route owns document
+metadata, or pass a string to customize it.
 
 ## Development
 
