@@ -6,10 +6,10 @@ Reusable sitemap building blocks for SvelteKit (and any modern Fetch-API runtime
 
 ## TL;DR
 
-- Zero runtime dependencies; distributed as TypeScript source via git submodule, consumed directly by your bundler.
+- Zero runtime dependencies; distributed as TypeScript source and consumed directly by your bundler.
 - Host supplies the route inventory; package supplies the transformations (filtering, XML, pings, validation).
-- Three import surfaces: `@goobits/sitemap/core` (pure), `/server` (XML, no network), `/ops` (fetch-dependent).
-- Drop-in SvelteKit handler factories (`createSitemapXmlHandler`, `createRobotsTxtHandler`) and an auto-scanner (`scanSvelteKitRoutes`) cut boilerplate to near zero.
+- Six import surfaces: root barrel, `/core`, `/server`, `/ops`, `/sveltekit`, and `/ui`.
+- SvelteKit handler factories (`createSitemapXmlHandler`, `createRobotsTxtHandler`) and an auto-scanner (`scanSvelteKitRoutes`) reduce app-local boilerplate.
 
 ## Highlights
 
@@ -21,7 +21,7 @@ Reusable sitemap building blocks for SvelteKit (and any modern Fetch-API runtime
 - **URL validation:** `validateSitemapUrls` HEAD-checks a sampled URL list, surfaces 404s and timeouts, runs concurrent batches
 - **No runtime dependencies:** uses `fetch` from `globalThis`; pure functions everywhere else
 - **Pluggable logger:** `ops/*` accept a `Logger` interface; bring your own (Pino, Winston, console, or silent)
-- **ESM-only, TypeScript-native:** subpath exports for tree-shaking; runs on Node 22+, Bun, Deno, Cloudflare Workers
+- **ESM-only, TypeScript-native:** subpath exports for tree-shaking; verified on Node 22, with `core`/`server` designed for modern TypeScript runtimes and `ops` designed for runtimes with `globalThis.fetch`
 
 ## Requirements
 
@@ -29,17 +29,17 @@ Reusable sitemap building blocks for SvelteKit (and any modern Fetch-API runtime
 
 ## Usage
 
-`@goobits/sitemap` is distributed from the `goobits/site-primitives` repo with TypeScript source: no build step and no `dist/`. Consume it from a workspace whose bundler (Vite, esbuild, SvelteKit, Bun, Deno, etc.) handles `.ts` natively.
+`@goobits/sitemap` is distributed from the `goobits/site-primitives` repo with TypeScript source: no build step and no `dist/`. Consume it from a workspace whose bundler handles TypeScript package exports.
 
 ### Why source-only?
 
-The package is built for SvelteKit-style consumers whose bundlers already compile `.ts` end-to-end. Shipping a pre-built `dist/` adds a build/version-dance step that buys nothing. Source-level distribution keeps fixes one diff away in either direction, and the consumer's existing typecheck/test pipeline sees real types through the boundary rather than `.d.ts` reconstructions.
+The package is built for SvelteKit-style consumers whose bundlers already compile `.ts` end-to-end. Source-level distribution keeps the package small and lets the consumer's existing typecheck/test pipeline see the source types directly.
 
 ### pnpm workspace
 
 ```bash
-# from your consumer repo root:
-git submodule add git@github.com:goobits/site-primitives.git packages/site-primitives
+# from your consumer repo root, mount site-primitives at your chosen package path
+git submodule add git@github.com:goobits/site-primitives.git packages/@goobits/site-primitives
 ```
 
 ```yaml
@@ -47,7 +47,7 @@ git submodule add git@github.com:goobits/site-primitives.git packages/site-primi
 packages:
     - apps/*
     - packages/*
-    - packages/site-primitives/packages/*
+    - packages/@goobits/site-primitives/packages/*
 ```
 
 ```jsonc
@@ -190,7 +190,7 @@ for (const result of results) {
 }
 ```
 
-ℹ️ **A note on search-engine ping endpoints.** Google retired its public sitemap ping in 2023; Bing has signaled its endpoint may follow. The package ships _no_ default engine list. You opt into the targets you actually want to notify. `HISTORICAL_PING_ENDPOINTS` is exported as a reference, not a default.
+**Search-engine ping endpoints:** Google retired its public sitemap ping in 2023; Bing has signaled its endpoint may follow. The package ships _no_ default engine list. You opt into the targets you actually want to notify. `HISTORICAL_PING_ENDPOINTS` is exported as a reference, not a default.
 
 ## URL HEAD validation
 
@@ -417,17 +417,14 @@ export function getPublicRouteInventory() {
 | `@goobits/sitemap/sveltekit` | `createSitemapXmlHandler`, `createRobotsTxtHandler`, `scanSvelteKitRoutes`. Requires `@sveltejs/kit ^2`.                           |
 | `@goobits/sitemap/ui`        | `<SitemapPage>` themable Svelte 5 component. Requires `svelte ^5`.                                                                 |
 
-## Per-module runtime compatibility
+## Runtime Notes
 
-| Module   | Node ≥22 | Bun | Deno | Cloudflare Workers       |
-| -------- | -------- | --- | ---- | ------------------------ |
-| `core`   | ✅       | ✅  | ✅   | ✅                       |
-| `server` | ✅       | ✅  | ✅   | ✅                       |
-| `ops`    | ✅       | ✅  | ✅   | ✅ (uses global `fetch`) |
-
-All modules use only `globalThis.fetch` for network operations. None import from `node:fs`, `node:http`, `node:net`, or any other Node-only built-ins.
-
-> Continuous integration exercises Node 22. Bun, Deno, and Cloudflare Workers are validated manually; if you hit a runtime-specific issue, please open an issue with the runtime version and a minimal repro.
+- Package tests and typechecks run on Node 22.
+- `core` is runtime-agnostic TypeScript.
+- `server` is pure XML/origin logic and does not perform network I/O.
+- `ops` performs network I/O through `globalThis.fetch`.
+- `sveltekit` requires `@sveltejs/kit ^2` in the consuming app.
+- `ui` requires `svelte ^5` in the consuming app.
 
 ## License
 

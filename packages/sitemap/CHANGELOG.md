@@ -46,7 +46,7 @@ Initial public release.
 
 ### Added — data layer
 
-- ESM-only TypeScript-native package, distributed via git submodule (consumed as TS source by the host's bundler — no build step, no `dist/`)
+- ESM-only TypeScript-native package, consumed as TS source by the host's bundler with no build step and no `dist/`
 - Subpath exports for each capability:
     - `@goobits/sitemap/core` — types + filter/sort/visibility helpers (runtime-agnostic)
     - `@goobits/sitemap/server` — XML builders + origin resolution (server-side, pure)

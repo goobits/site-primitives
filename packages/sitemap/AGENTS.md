@@ -7,9 +7,9 @@ Reusable sitemap core, server helpers, and operations layer for SvelteKit (and a
 ## Quick reference
 
 - **Category:** library (ESM-only, TypeScript)
-- **Distribution:** git submodule consumed inside a pnpm workspace. Consumer bundlers (Vite/esbuild/SvelteKit) compile the `.ts` source directly — no build step, no `dist/`, no npm publish.
+- **Distribution:** source-only package consumed from the `goobits/site-primitives` repo inside a pnpm workspace. Consumer bundlers compile the `.ts` source directly — no build step, no `dist/`, no npm publish.
 - **Primary stack:** TypeScript 5.9 + vitest + svelte-check (for the `/ui` subpath). No runtime dependencies. Optional peer-deps: `@sveltejs/kit ^2`, `svelte ^5` (only needed for the `/ui` subpath), `typescript ^5`.
-- **Runtime targets:** Node 22+, Bun, Deno, Cloudflare Workers (anything with `fetch` on `globalThis` for the `ops` subpath; `core` runs anywhere).
+- **Runtime targets:** Node 22 is the verified test target. `core` is runtime-agnostic TypeScript; `ops` requires a runtime with `globalThis.fetch`.
 - **Engines:** Node `>=22`
 
 ## Commands
