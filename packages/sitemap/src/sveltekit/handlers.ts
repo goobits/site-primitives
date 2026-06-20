@@ -59,10 +59,7 @@ export function createSitemapXmlHandler(options: SitemapXmlHandlerOptions): Requ
 		})
 
 		const routes = await options.getRoutes()
-		const xml = buildSitemapXml(
-			origin,
-			routes.map((entry) => ({ path: entry.path, lastModified: entry.lastModified }))
-		)
+		const xml = buildSitemapXml(origin, routes)
 
 		return new Response(xml, {
 			headers: {

@@ -75,6 +75,23 @@ describe('createSitemapXmlHandler', () => {
 		expect(body).toContain('/async/')
 	})
 
+	it('preserves optional sitemap route metadata', async () => {
+		const handler = createSitemapXmlHandler({
+			fallbackOrigin: 'https://example.com',
+			getRoutes: () => [
+				{
+					path: '/about',
+					lastModified: '2026-05-21T00:00:00Z',
+					changefreq: 'weekly',
+					priority: 0.8
+				}
+			]
+		})
+		const body = await (await handler(mkEvent())).text()
+		expect(body).toContain('<changefreq>weekly</changefreq>')
+		expect(body).toContain('<priority>0.8</priority>')
+	})
+
 	it('prefers PUBLIC_BASE_URL from platform env over the fallback', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://fallback.example.com',
