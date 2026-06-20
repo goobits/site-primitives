@@ -11,6 +11,8 @@
 	"exports": {
 		".": "./src/index.ts",
 		"./core": "./src/core.ts",
+		"./markdown": "./src/markdown.ts",
+		"./view-model": "./src/viewModel.ts",
 		"./ui": "./src/ui.ts",
 		"./ui/ChangelogPage.svelte": "./src/ui/ChangelogPage.svelte"
 	},

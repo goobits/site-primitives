@@ -18,6 +18,10 @@ export type {
 	ApiRouteEntry,
 	HumanSitemapVisibility,
 	PageRouteEntry,
+	RouteChannel,
+	RouteChannelPolicy,
+	RouteChannelPolicyIssues,
+	RouteChannelTags,
 	RouteInventory,
 	RouteInventoryStats,
 	SitemapAudience,
@@ -36,3 +40,13 @@ export {
 	getVisibleSitemapGroups,
 	internalSitemapTags
 } from './core/viewmodel.ts'
+
+export {
+	type RouteChannelPolicyCheckOptions,
+	type RouteChannelRouteType,
+	checkRouteChannelPolicy,
+	filterEntriesForRouteChannel,
+	getRouteChannelTags,
+	isRouteInChannel,
+	normalizeRouteChannel
+} from './core/channels.ts'

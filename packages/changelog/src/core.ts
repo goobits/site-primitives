@@ -24,16 +24,16 @@ export interface ChangelogEntry {
 }
 
 /** Default section order used by `ChangelogPage`. */
-export const DEFAULT_CHANGE_TYPES = [ 'New', 'Upgrade', 'Fix' ] as const
+export const DEFAULT_CHANGE_TYPES = ['New', 'Upgrade', 'Fix'] as const
 
 /** Return the changes in `entry` whose `type` matches the requested label. */
 export function changesOfType(entry: ChangelogEntry, type: ChangelogItemType): ChangelogItem[] {
-	return entry.changes.filter(item => item.type === type)
+	return entry.changes.filter((item) => item.type === type)
 }
 
 /** Format a date string for display, returning the original value if parsing fails. */
 export function formatChangelogDate(value: string, locale = 'en-US'): string {
-	const date = new Date(`${ value }T00:00:00`)
+	const date = new Date(`${value}T00:00:00`)
 	if (Number.isNaN(date.getTime())) return value
 	return date.toLocaleDateString(locale, {
 		year: 'numeric',
@@ -45,5 +45,28 @@ export function formatChangelogDate(value: string, locale = 'en-US'): string {
 /** Format an entry version, preserving `v*` labels and prefixing other labels with `Version`. */
 export function formatChangelogVersion(entry: ChangelogEntry): string {
 	const version = String(entry.version || '')
-	return version.startsWith('v') ? version : `Version ${ version }`
+	return version.startsWith('v') ? version : `Version ${version}`
 }
+
+export {
+	type ChangeEntry,
+	type Changelog,
+	ChangeType,
+	DateFormat,
+	type FormatOptions,
+	type VersionEntry,
+	addVersion,
+	createEmptyChangelog,
+	formatChangelog,
+	getChangeTypeLabel
+} from './formatter.ts'
+export { type ParseResult, parseChangelog, validateChangelog } from './markdown.ts'
+export {
+	type ChangelogChangeViewModel,
+	type ChangelogSectionViewModel,
+	type ChangelogVersionViewModel,
+	type ChangelogViewModel,
+	createChangelogViewModel,
+	createVersionSlug,
+	findChangelogVersion
+} from './viewModel.ts'
