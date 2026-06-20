@@ -69,6 +69,16 @@
 											{/if}
 										</span>
 										<br>
+									{:else if member.url || member.email}
+										<span class="gb-humans-txt-syntax__comment" style="white-space: pre-line">
+											{#if member.url}
+												<span class="gb-humans-txt-syntax__path">(<a href={member.url}>{member.url}</a>)</span>
+											{/if}
+											{#if member.email}
+												<span class="gb-humans-txt-syntax__operator">&#60;<a href={`mailto:${ member.email }`}>{member.email}</a>&#62;</span>
+											{/if}
+										</span>
+										<br>
 									{/if}
 									<span class="gb-humans-txt-syntax__keyword">this</span><span class="gb-humans-txt-syntax__variable">.{member.role || 'member'}</span> =
 									<span class="gb-humans-txt-syntax__string">"{member.name}"</span>;
