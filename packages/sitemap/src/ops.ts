@@ -13,6 +13,7 @@ export {
 	type PingSearchEnginesOptions,
 	type SearchEnginePingTarget,
 	type SitemapPingResult } from './ops/ping.ts'
+export type { RetryOptions } from './ops/http.ts'
 export {
 	type SitemapUrlHeadResult,
 	type SitemapValidationResult,
