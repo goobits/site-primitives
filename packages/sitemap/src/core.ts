@@ -12,7 +12,8 @@ export {
 	createPageEntry,
 	createRouteInventory,
 	groupRoutesByCategory,
-	type PageEntryOverrides } from './core/builders.ts'
+	type PageEntryOverrides
+} from './core/builders.ts'
 export type {
 	ApiRouteEntry,
 	HumanSitemapVisibility,

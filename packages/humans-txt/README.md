@@ -6,12 +6,12 @@ Part of [`@goobits/site-primitives`](https://github.com/goobits/site-primitives)
 
 ## Exports
 
-| Subpath | Purpose |
-| --- | --- |
-| `@goobits/humans-txt` | Types and `isLastItem` helper. |
-| `@goobits/humans-txt/core` | Same core types and helper without UI. |
-| `@goobits/humans-txt/ui` | `HumansTxtPage` Svelte component. |
-| `@goobits/humans-txt/ui/HumansTxtPage.svelte` | Direct component import. |
+| Subpath                                       | Purpose                                |
+| --------------------------------------------- | -------------------------------------- |
+| `@goobits/humans-txt`                         | Types and `isLastItem` helper.         |
+| `@goobits/humans-txt/core`                    | Same core types and helper without UI. |
+| `@goobits/humans-txt/ui`                      | `HumansTxtPage` Svelte component.      |
+| `@goobits/humans-txt/ui/HumansTxtPage.svelte` | Direct component import.               |
 
 ## Data Shape
 
@@ -19,31 +19,31 @@ Part of [`@goobits/site-primitives`](https://github.com/goobits/site-primitives)
 import type { HumansTxtModel } from '@goobits/humans-txt'
 
 const humans: HumansTxtModel = {
-  ascii: 'SITE',
-  team: [
-    {
-      role: 'creator',
-      name: 'Example Person',
-      url: 'https://example.com',
-      email: 'hello@example.com'
-    }
-  ],
-  contributors: {
-    design: [
-      {
-        name: 'Design Contributor',
-        handle: '@design',
-        handleUrl: 'https://example.com/design'
-      }
-    ]
-  },
-  libraries: [
-    {
-      name: 'Svelte',
-      url: 'https://svelte.dev',
-      license: 'MIT'
-    }
-  ]
+	ascii: 'SITE',
+	team: [
+		{
+			role: 'creator',
+			name: 'Example Person',
+			url: 'https://example.com',
+			email: 'hello@example.com'
+		}
+	],
+	contributors: {
+		design: [
+			{
+				name: 'Design Contributor',
+				handle: '@design',
+				handleUrl: 'https://example.com/design'
+			}
+		]
+	},
+	libraries: [
+		{
+			name: 'Svelte',
+			url: 'https://svelte.dev',
+			license: 'MIT'
+		}
+	]
 }
 ```
 

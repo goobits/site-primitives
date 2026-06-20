@@ -19,14 +19,23 @@ function normalizeQuery(value: string) {
 
 function matchesQuery(query: string, values: string[]) {
 	if (!query) return true
-	return values.some(value => value.toLowerCase().includes(query))
+	return values.some((value) => value.toLowerCase().includes(query))
 }
 
 /** Tags surfaced to anonymous viewers. */
-export const baseSitemapTags = [ 'SSR', 'CSR', 'Dynamic', 'Layout' ] as const
+export const baseSitemapTags = ['SSR', 'CSR', 'Dynamic', 'Layout'] as const
 
 /** Tags surfaced to viewers with internal-routes permission. */
-export const internalSitemapTags = [ 'SSR', 'CSR', 'Dynamic', 'Auth', 'NoIndex', 'API', 'Layout', 'Internal' ] as const
+export const internalSitemapTags = [
+	'SSR',
+	'CSR',
+	'Dynamic',
+	'Auth',
+	'NoIndex',
+	'API',
+	'Layout',
+	'Internal'
+] as const
 
 /**
  * Returns the tag set a viewer should see based on their permission level.
@@ -34,7 +43,7 @@ export const internalSitemapTags = [ 'SSR', 'CSR', 'Dynamic', 'Auth', 'NoIndex',
  * @param canViewInternalRoutes - Whether to view internal routes.
  */
 export function getSitemapAvailableTags(canViewInternalRoutes: boolean) {
-	return canViewInternalRoutes ? [ ...internalSitemapTags ] : [ ...baseSitemapTags ]
+	return canViewInternalRoutes ? [...internalSitemapTags] : [...baseSitemapTags]
 }
 
 /**
@@ -56,7 +65,7 @@ export function getRouteTags(route: SitemapEntry) {
 }
 
 function sortRoutes(routes: SitemapEntry[], sortBy: SitemapSort) {
-	return [ ...routes ].sort((a, b) => {
+	return [...routes].sort((a, b) => {
 		switch (sortBy) {
 			case 'name':
 				return localeSort(a.name, b.name)
@@ -70,10 +79,10 @@ function sortRoutes(routes: SitemapEntry[], sortBy: SitemapSort) {
 }
 
 function matchesSitemapFilters(route: SitemapEntry, query: string, selectedTags: string[]) {
-	if (!matchesQuery(query, [ route.path, route.name ])) return false
+	if (!matchesQuery(query, [route.path, route.name])) return false
 	if (selectedTags.length === 0) return true
 	const tags = getRouteTags(route)
-	return selectedTags.every(tag => tags.includes(tag))
+	return selectedTags.every((tag) => tags.includes(tag))
 }
 
 /**
@@ -97,8 +106,8 @@ export function getFilteredSitemapGroups(
 	const query = normalizeQuery(searchQuery)
 	const result: Record<string, SitemapEntry[]> = {}
 
-	for (const [ category, routes ] of Object.entries(grouped)) {
-		const filtered = routes.filter(route => matchesSitemapFilters(route, query, selectedTags))
+	for (const [category, routes] of Object.entries(grouped)) {
+		const filtered = routes.filter((route) => matchesSitemapFilters(route, query, selectedTags))
 		if (filtered.length > 0) {
 			result[category] = sortRoutes(filtered, sortBy)
 		}
@@ -126,8 +135,8 @@ export function getVisibleSitemapGroups(
 	)
 
 	const out: Record<string, SitemapEntry[]> = {}
-	for (const [ category, routes ] of Object.entries(grouped)) {
-		const filtered = routes.filter(route => audiences.includes(route.sitemap))
+	for (const [category, routes] of Object.entries(grouped)) {
+		const filtered = routes.filter((route) => audiences.includes(route.sitemap))
 		if (filtered.length > 0) out[category] = filtered
 	}
 	return out
@@ -148,6 +157,8 @@ export function getFilteredSitemapCount(grouped: Record<string, SitemapEntry[]>)
  *
  * @param visibility - visibility value.
  */
-export function getSitemapAudiencesForVisibility(visibility: HumanSitemapVisibility): SitemapAudience[] {
-	return visibility === 'internal' ? [ 'public', 'internal' ] : [ 'public' ]
+export function getSitemapAudiencesForVisibility(
+	visibility: HumanSitemapVisibility
+): SitemapAudience[] {
+	return visibility === 'internal' ? ['public', 'internal'] : ['public']
 }

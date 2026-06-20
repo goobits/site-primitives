@@ -18,9 +18,15 @@ describe('HumansTxtPage', () => {
 					}
 				],
 				contributors: {
-					design: [ { name: 'Designer', handle: '@design', handleUrl: 'https://example.com/design' } ]
+					design: [
+						{
+							name: 'Designer',
+							handle: '@design',
+							handleUrl: 'https://example.com/design'
+						}
+					]
 				},
-				libraries: [ { name: 'Svelte', license: 'MIT' } ],
+				libraries: [{ name: 'Svelte', license: 'MIT' }],
 				terminalTitle: 'Example Terminal',
 				terminalPath: 'example:~/public'
 			}
@@ -40,7 +46,7 @@ describe('HumansTxtPage', () => {
 		const { head, html } = render(HumansTxtPage, {
 			props: {
 				headTitle: null,
-				team: [ { name: 'Example Person' } ]
+				team: [{ name: 'Example Person' }]
 			}
 		})
 
