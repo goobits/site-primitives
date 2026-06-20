@@ -9,24 +9,18 @@
 import type { RequestHandler } from '@sveltejs/kit'
 
 import type { SitemapRoute } from '../core/types.ts'
-import {
-	buildSitemapXml,
-	getBaseUrl,
-	getPlatformEnv,
-	resolveSiteOrigin
-} from '../server/xml.ts'
+import { buildSitemapXml, getBaseUrl, getPlatformEnv, resolveSiteOrigin } from '../server/xml.ts'
 
 /** Options for `createSitemapXmlHandler`. */
 export interface SitemapXmlHandlerOptions {
-
 	/** Last-resort origin when neither `PUBLIC_BASE_URL`/`BASE_URL` nor the request origin yield a usable value. */
 	fallbackOrigin: string
 
 	/**
- * Returns the routes to render. Called on every request; cache inside if
- * your route source is expensive. Each entry must have a `path` and
- * `lastModified` (ISO string).
- */
+	 * Returns the routes to render. Called on every request; cache inside if
+	 * your route source is expensive. Each entry must have a `path` and
+	 * `lastModified` (ISO string).
+	 */
 	getRoutes: () => SitemapRoute[] | Promise<SitemapRoute[]>
 
 	/**
@@ -56,7 +50,7 @@ export interface SitemapXmlHandlerOptions {
  */
 export function createSitemapXmlHandler(options: SitemapXmlHandlerOptions): RequestHandler {
 	const cacheControl = options.cacheControl ?? 'public, max-age=3600'
-	return async({ url, platform }) => {
+	return async ({ url, platform }) => {
 		const baseUrl = getBaseUrl(getPlatformEnv(platform))
 		const origin = resolveSiteOrigin({
 			...(baseUrl !== undefined ? { baseUrl } : {}),
@@ -67,7 +61,7 @@ export function createSitemapXmlHandler(options: SitemapXmlHandlerOptions): Requ
 		const routes = await options.getRoutes()
 		const xml = buildSitemapXml(
 			origin,
-			routes.map(entry => ({ path: entry.path, lastModified: entry.lastModified }))
+			routes.map((entry) => ({ path: entry.path, lastModified: entry.lastModified }))
 		)
 
 		return new Response(xml, {
@@ -79,9 +73,20 @@ export function createSitemapXmlHandler(options: SitemapXmlHandlerOptions): Requ
 	}
 }
 
+/** Context passed to a custom `robots.txt` line builder. */
+export interface RobotsTxtLinesContext {
+	/** Resolved site origin with no trailing slash. */
+	origin: string
+
+	/** Path to the default sitemap file. */
+	sitemapPath: string
+
+	/** Absolute URL for the default sitemap file. */
+	sitemapUrl: string
+}
+
 /** Options for `createRobotsTxtHandler`. */
 export interface RobotsTxtHandlerOptions {
-
 	/** Last-resort origin when env-supplied values are missing. */
 	fallbackOrigin: string
 
@@ -89,31 +94,37 @@ export interface RobotsTxtHandlerOptions {
 	sitemapPath?: string
 
 	/**
- * Extra `robots.txt` lines inserted between the standard `User-agent: * / Allow: /`
- * block and the `Sitemap:` line. Each entry is rendered as its own line.
- *
- * @example
- * ```ts
- * extraLines: ['Disallow: /admin/', 'Disallow: /api/internal/']
- * ```
- */
+	 * Extra `robots.txt` lines inserted between the standard `User-agent: * / Allow: /`
+	 * block and the `Sitemap:` line. Each entry is rendered as its own line.
+	 *
+	 * @example
+	 * ```ts
+	 * extraLines: ['Disallow: /admin/', 'Disallow: /api/internal/']
+	 * ```
+	 */
 	extraLines?: string[]
+
+	/**
+	 * Complete `robots.txt` line builder. When supplied, it replaces the
+	 * default `User-agent: *` / `Allow: /` / `Sitemap:` output and `extraLines`.
+	 */
+	getLines?: (context: RobotsTxtLinesContext) => string[] | Promise<string[]>
 
 	/** `cache-control` value. Default: `'public, max-age=3600'`. */
 	cacheControl?: string
 }
 
 /**
-	 * Build a SvelteKit `RequestHandler` that emits a `robots.txt` pointing
-	 * at the sitemap. Defaults: allow all crawlers, declare one sitemap.
-	 *
-	 * @param options - Options for this operation.
-	 */
+ * Build a SvelteKit `RequestHandler` that emits a `robots.txt` pointing
+ * at the sitemap. Defaults: allow all crawlers, declare one sitemap.
+ *
+ * @param options - Options for this operation.
+ */
 export function createRobotsTxtHandler(options: RobotsTxtHandlerOptions): RequestHandler {
 	const sitemapPath = options.sitemapPath ?? '/sitemap.xml'
 	const extraLines = options.extraLines ?? []
 	const cacheControl = options.cacheControl ?? 'public, max-age=3600'
-	return async({ url, platform }) => {
+	return async ({ url, platform }) => {
 		const baseUrl = getBaseUrl(getPlatformEnv(platform))
 		const origin = resolveSiteOrigin({
 			...(baseUrl !== undefined ? { baseUrl } : {}),
@@ -121,14 +132,10 @@ export function createRobotsTxtHandler(options: RobotsTxtHandlerOptions): Reques
 			fallbackOrigin: options.fallbackOrigin
 		})
 
-		const lines = [
-			'User-agent: *',
-			'Allow: /',
-			...extraLines,
-			'',
-			`Sitemap: ${ origin }${ sitemapPath }`,
-			''
-		]
+		const sitemapUrl = `${origin}${sitemapPath}`
+		const lines = options.getLines
+			? await options.getLines({ origin, sitemapPath, sitemapUrl })
+			: ['User-agent: *', 'Allow: /', ...extraLines, '', `Sitemap: ${sitemapUrl}`, '']
 
 		return new Response(lines.join('\n'), {
 			headers: {

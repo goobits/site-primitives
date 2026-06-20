@@ -349,7 +349,24 @@ export const GET = createRobotsTxtHandler({
 })
 ```
 
-Both factories handle origin resolution (`PUBLIC_BASE_URL` → request → fallback), set sensible `application/xml` / `text/plain` + `cache-control: public, max-age=3600` headers, and never throw.
+Both factories handle origin resolution (`PUBLIC_BASE_URL` → request → fallback) and set sensible `application/xml` / `text/plain` + `cache-control: public, max-age=3600` headers.
+
+For sites that need to replace the default `User-agent: *` / `Allow: /` policy,
+use `getLines` to return the complete `robots.txt` body:
+
+```ts
+export const GET = createRobotsTxtHandler({
+	fallbackOrigin: FALLBACK_ORIGIN,
+	sitemapPath: '/sitemaps/index.xml',
+	getLines: ({ sitemapUrl }) => [
+		'User-agent: GPTBot',
+		'Disallow: /',
+		'',
+		`Sitemap: ${sitemapUrl}`,
+		''
+	]
+})
+```
 
 ## Auto-scan filesystem routes (SvelteKit)
 

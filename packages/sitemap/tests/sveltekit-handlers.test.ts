@@ -19,7 +19,10 @@ afterEach(() => {
 	else delete process.env['PUBLIC_BASE_URL']
 })
 
-function mkEvent(reqUrl = 'http://localhost:3000/sitemap.xml', platformEnv?: Record<string, string>) {
+function mkEvent(
+	reqUrl = 'http://localhost:3000/sitemap.xml',
+	platformEnv?: Record<string, string>
+) {
 	return {
 		url: new URL(reqUrl),
 		platform: platformEnv ? { env: platformEnv } : undefined
@@ -27,7 +30,7 @@ function mkEvent(reqUrl = 'http://localhost:3000/sitemap.xml', platformEnv?: Rec
 }
 
 describe('createSitemapXmlHandler', () => {
-	it('returns valid XML for the supplied routes', async() => {
+	it('returns valid XML for the supplied routes', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://example.com',
 			getRoutes: () => [
@@ -44,7 +47,7 @@ describe('createSitemapXmlHandler', () => {
 		expect(body).toContain('<url><loc>https://example.com/contact/')
 	})
 
-	it('uses default cache-control header', async() => {
+	it('uses default cache-control header', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://example.com',
 			getRoutes: () => []
@@ -53,7 +56,7 @@ describe('createSitemapXmlHandler', () => {
 		expect(response.headers.get('cache-control')).toBe('public, max-age=3600')
 	})
 
-	it('honors custom cache-control', async() => {
+	it('honors custom cache-control', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://example.com',
 			getRoutes: () => [],
@@ -63,30 +66,34 @@ describe('createSitemapXmlHandler', () => {
 		expect(response.headers.get('cache-control')).toBe('public, max-age=60')
 	})
 
-	it('awaits async getRoutes', async() => {
+	it('awaits async getRoutes', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://example.com',
-			getRoutes: async() => [ { path: '/async', lastModified: '2026-05-21T00:00:00Z' } ]
+			getRoutes: async () => [{ path: '/async', lastModified: '2026-05-21T00:00:00Z' }]
 		})
 		const body = await (await handler(mkEvent())).text()
 		expect(body).toContain('/async/')
 	})
 
-	it('prefers PUBLIC_BASE_URL from platform env over the fallback', async() => {
+	it('prefers PUBLIC_BASE_URL from platform env over the fallback', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://fallback.example.com',
-			getRoutes: () => [ { path: '/x', lastModified: '2026-01-01T00:00:00Z' } ]
+			getRoutes: () => [{ path: '/x', lastModified: '2026-01-01T00:00:00Z' }]
 		})
-		const body = await (await handler(mkEvent('http://localhost:3000/sitemap.xml', {
-			PUBLIC_BASE_URL: 'https://prod.example.com'
-		}))).text()
+		const body = await (
+			await handler(
+				mkEvent('http://localhost:3000/sitemap.xml', {
+					PUBLIC_BASE_URL: 'https://prod.example.com'
+				})
+			)
+		).text()
 		expect(body).toContain('https://prod.example.com/x/')
 		expect(body).not.toContain('fallback.example.com')
 	})
 })
 
 describe('createRobotsTxtHandler', () => {
-	it('emits a default robots.txt pointing at /sitemap.xml', async() => {
+	it('emits a default robots.txt pointing at /sitemap.xml', async () => {
 		const handler = createRobotsTxtHandler({
 			fallbackOrigin: 'https://example.com'
 		})
@@ -99,7 +106,7 @@ describe('createRobotsTxtHandler', () => {
 		expect(body).toContain('Sitemap: https://example.com/sitemap.xml')
 	})
 
-	it('honors custom sitemapPath', async() => {
+	it('honors custom sitemapPath', async () => {
 		const handler = createRobotsTxtHandler({
 			fallbackOrigin: 'https://example.com',
 			sitemapPath: '/sitemaps/index.xml'
@@ -108,10 +115,10 @@ describe('createRobotsTxtHandler', () => {
 		expect(body).toContain('Sitemap: https://example.com/sitemaps/index.xml')
 	})
 
-	it('inserts extraLines between Allow and Sitemap', async() => {
+	it('inserts extraLines between Allow and Sitemap', async () => {
 		const handler = createRobotsTxtHandler({
 			fallbackOrigin: 'https://example.com',
-			extraLines: [ 'Disallow: /admin/', 'Disallow: /api/internal/' ]
+			extraLines: ['Disallow: /admin/', 'Disallow: /api/internal/']
 		})
 		const body = await (await handler(mkEvent('http://localhost:3000/robots.txt'))).text()
 		const lines = body.split('\n')
@@ -120,10 +127,34 @@ describe('createRobotsTxtHandler', () => {
 
 		// Ordering: Allow comes before Disallow, which comes before Sitemap
 		expect(lines.indexOf('Allow: /')).toBeLessThan(lines.indexOf('Disallow: /admin/'))
-		expect(lines.indexOf('Disallow: /admin/')).toBeLessThan(lines.findIndex(l => l.startsWith('Sitemap:')))
+		expect(lines.indexOf('Disallow: /admin/')).toBeLessThan(
+			lines.findIndex((l) => l.startsWith('Sitemap:'))
+		)
 	})
 
-	it('default cache-control', async() => {
+	it('honors a complete custom robots.txt line builder', async () => {
+		const handler = createRobotsTxtHandler({
+			fallbackOrigin: 'https://example.com',
+			sitemapPath: '/sitemaps/index.xml',
+			extraLines: ['Disallow: /ignored/'],
+			getLines: ({ sitemapUrl }) => [
+				'User-agent: GPTBot',
+				'Disallow: /',
+				'',
+				`Sitemap: ${sitemapUrl}`,
+				''
+			]
+		})
+		const body = await (await handler(mkEvent('http://localhost:3000/robots.txt'))).text()
+
+		expect(body).toContain('User-agent: GPTBot')
+		expect(body).toContain('Disallow: /')
+		expect(body).toContain('Sitemap: https://example.com/sitemaps/index.xml')
+		expect(body).not.toContain('Allow: /')
+		expect(body).not.toContain('Disallow: /ignored/')
+	})
+
+	it('default cache-control', async () => {
 		const handler = createRobotsTxtHandler({ fallbackOrigin: 'https://example.com' })
 		const response = await handler(mkEvent('http://localhost:3000/robots.txt'))
 		expect(response.headers.get('cache-control')).toBe('public, max-age=3600')
