@@ -8,7 +8,7 @@ Reusable sitemap building blocks for SvelteKit (and any modern Fetch-API runtime
 
 - Zero runtime dependencies; distributed as TypeScript source and consumed directly by your bundler.
 - Host supplies the route inventory; package supplies the transformations (filtering, XML, pings, validation).
-- Six import surfaces: root barrel, `/core`, `/server`, `/ops`, `/sveltekit`, and `/ui`.
+- Import surfaces are owned by package exports and rendered by the generated docs reference.
 - SvelteKit handler factories (`createSitemapXmlHandler`, `createRobotsTxtHandler`) and an auto-scanner (`scanSvelteKitRoutes`) reduce app-local boilerplate.
 
 ## Highlights
@@ -423,16 +423,15 @@ export function getPublicRouteInventory() {
 
 `createPageEntry` / `createApiEntry` fill in sensible defaults (public, static, non-dynamic, no auth) so you only specify what differs. `createRouteInventory` handles the grouping + stats computation.
 
-## Subpath exports
+## Public API
 
-| Subpath                      | What's exported                                                                                                                    |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `@goobits/sitemap`           | Barrel: re-exports `core` + `server` (NOT `ops`, `sveltekit`, or `ui`)                                                             |
-| `@goobits/sitemap/core`      | Types + filter/sort/visibility helpers + `createPageEntry` / `createApiEntry` / `createRouteInventory` builders. Runtime-agnostic. |
-| `@goobits/sitemap/server`    | XML builders + origin resolution. Pure, no network.                                                                                |
-| `@goobits/sitemap/ops`       | `pingSearchEngines` + `validateSitemapUrls`. Server-side, `fetch`-dependent.                                                       |
-| `@goobits/sitemap/sveltekit` | `createSitemapXmlHandler`, `createRobotsTxtHandler`, `scanSvelteKitRoutes`. Requires `@sveltejs/kit ^2`.                           |
-| `@goobits/sitemap/ui`        | `<SitemapPage>` themable Svelte 5 component. Requires `svelte ^5`.                                                                 |
+The package manifest owns the exact public export inventory. Use `package.json`
+when changing exports, and use the generated docs reference for the current
+rendered list.
+
+The root barrel re-exports the core and server helpers. Network operations,
+SvelteKit handlers, and the Svelte UI stay on their own package subpaths so
+consumers only import the runtime surface they need.
 
 ## Runtime Notes
 

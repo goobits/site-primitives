@@ -5,14 +5,11 @@ component.
 
 Part of [`@goobits/site-primitives`](https://github.com/goobits/site-primitives).
 
-## Exports
+## Public API
 
-| Subpath                                      | Purpose                                      |
-| -------------------------------------------- | -------------------------------------------- |
-| `@goobits/changelog`                         | Types, format helpers, and change filtering. |
-| `@goobits/changelog/core`                    | Same core types and helpers without UI.      |
-| `@goobits/changelog/ui`                      | `ChangelogPage` Svelte component.            |
-| `@goobits/changelog/ui/ChangelogPage.svelte` | Direct component import.                     |
+The package manifest owns the exact public export inventory. Use `package.json`
+when changing exports, and use the generated docs reference for the current
+rendered list.
 
 ## Data Shape
 

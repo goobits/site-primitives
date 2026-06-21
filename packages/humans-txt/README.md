@@ -4,14 +4,11 @@ Reusable humans.txt data types and a terminal-style Svelte 5 page component.
 
 Part of [`@goobits/site-primitives`](https://github.com/goobits/site-primitives).
 
-## Exports
+## Public API
 
-| Subpath                                       | Purpose                                |
-| --------------------------------------------- | -------------------------------------- |
-| `@goobits/humans-txt`                         | Types and `isLastItem` helper.         |
-| `@goobits/humans-txt/core`                    | Same core types and helper without UI. |
-| `@goobits/humans-txt/ui`                      | `HumansTxtPage` Svelte component.      |
-| `@goobits/humans-txt/ui/HumansTxtPage.svelte` | Direct component import.               |
+The package manifest owns the exact public export inventory. Use `package.json`
+when changing exports, and use the generated docs reference for the current
+rendered list.
 
 ## Data Shape
 
