@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import type { SitemapEntry } from '@goobits/sitemap/core'
 import {
 	baseSitemapTags,
 	getFilteredSitemapCount,
@@ -9,7 +8,8 @@ import {
 	getSitemapAudiencesForVisibility,
 	getSitemapAvailableTags,
 	getVisibleSitemapGroups,
-	internalSitemapTags
+	internalSitemapTags,
+	type SitemapEntry
 } from '@goobits/sitemap/core'
 
 function makePage(overrides: Partial<Extract<SitemapEntry, { type: 'page' }>> = {}): SitemapEntry {
