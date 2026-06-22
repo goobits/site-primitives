@@ -1,0 +1,218 @@
+
+  CodeAtlas
+══════════════════════════════════════════════════
+
+○ public  ◐ internal  ● private
+
+│ packages/changelog/src/core.ts
+├── ○ T ChangelogItem
+│   ├── ○ type
+│   ├── ○ content
+│   ├── ○ emoji
+│   └── ○ category
+├── ○ T ChangelogEntry
+│   ├── ○ version
+│   ├── ○ date
+│   └── ○ changes
+├── ○ f changesOfType
+├── ○ f formatChangelogDate
+└── ○ f formatChangelogVersion
+
+│ packages/changelog/src/formatter.ts
+├── ○ T ChangeEntry
+│   ├── ○ type
+│   ├── ○ description
+│   ├── ○ issueRef
+│   └── ○ author
+├── ○ T VersionEntry
+│   ├── ○ version
+│   ├── ○ date
+│   └── ○ changes
+├── ○ T Changelog
+│   ├── ○ title
+│   ├── ○ description
+│   └── ○ versions
+├── ○ T FormatOptions
+│   ├── ○ includeAuthors
+│   ├── ○ includeIssueRefs
+│   └── ○ dateFormat
+├── ○ f getChangeTypeLabel
+├── ○ f formatChangelog
+├── ○ f createEmptyChangelog
+└── ○ f addVersion
+
+│ packages/changelog/src/markdown.ts
+├── ○ f parseChangelog
+└── ○ f validateChangelog
+
+│ packages/changelog/src/viewModel.ts
+├── ○ T ChangelogChangeViewModel
+│   ├── ○ type
+│   ├── ○ typeLabel
+│   ├── ○ description
+│   ├── ○ issueRef
+│   └── ○ author
+├── ○ T ChangelogSectionViewModel
+│   ├── ○ type
+│   ├── ○ title
+│   └── ○ changes
+├── ○ T ChangelogVersionViewModel
+│   ├── ○ version
+│   ├── ○ slug
+│   ├── ○ title
+│   ├── ○ dateLabel
+│   ├── ○ dateIso
+│   ├── ○ released
+│   ├── ○ sections
+│   └── ○ changeCount
+├── ○ T ChangelogViewModel
+│   ├── ○ title
+│   ├── ○ description
+│   ├── ○ versions
+│   ├── ○ latest
+│   ├── ○ versionCount
+│   └── ○ changeCount
+├── ○ f createChangelogViewModel
+├── ○ f createVersionSlug
+└── ○ f findChangelogVersion
+
+│ packages/humans-txt/src/core.ts
+├── ○ T HumansTxtPerson
+│   ├── ○ role
+│   ├── ○ name
+│   ├── ○ url
+│   ├── ○ email
+│   ├── ○ description
+│   ├── ○ handle
+│   └── ○ handleUrl
+├── ○ T HumansTxtLibrary
+│   ├── ○ name
+│   ├── ○ author
+│   ├── ○ url
+│   └── ○ license
+├── ○ T HumansTxtModel
+│   ├── ○ ascii
+│   ├── ○ team
+│   ├── ○ contributors
+│   └── ○ libraries
+└── ○ f isLastItem
+
+│ packages/sitemap/src/core/builders.ts
+├── ○ T PageEntryOverrides
+│   ├── ○ hasServerLoad
+│   ├── ○ hasClientLoad
+│   ├── ○ hasLayout
+│   ├── ○ isDynamic
+│   ├── ○ hasAuth
+│   ├── ○ isNoIndex
+│   └── ○ sitemap
+├── ○ T ApiEntryOverrides
+│   ├── ○ isDynamic
+│   └── ○ sitemap
+├── ○ f createPageEntry
+├── ○ f createApiEntry
+├── ○ f groupRoutesByCategory
+├── ○ f computeRouteStats
+└── ○ f createRouteInventory
+
+│ packages/sitemap/src/core/channels.ts
+├── ○ T RouteChannelPolicyCheckOptions
+│   ├── ○ pageRoutes
+│   ├── ○ apiRoutes
+│   └── ○ ignoredRouteIds
+├── ○ f normalizeRouteChannel
+├── ○ f getRouteChannelTags
+├── ○ f isRouteInChannel
+├── ○ f filterEntriesForRouteChannel
+└── ○ f checkRouteChannelPolicy
+
+│ packages/sitemap/src/core/viewmodel.ts
+├── ○ f getSitemapAvailableTags
+├── ○ f getRouteTags
+├── ○ f getFilteredSitemapGroups
+├── ○ f getVisibleSitemapGroups
+├── ○ f getFilteredSitemapCount
+└── ○ f getSitemapAudiencesForVisibility
+
+│ packages/sitemap/src/ops/http.ts
+├── ○ f fetchWithTimeout
+└── ○ f retry
+
+│ packages/sitemap/src/ops/ping.ts
+└── ○ f pingSearchEngines
+
+│ packages/sitemap/src/ops/validate.ts
+└── ○ f validateSitemapUrls
+
+│ packages/sitemap/src/server/xml.ts
+├── ○ f resolveSiteOrigin
+├── ○ f getPlatformEnv
+├── ○ f getBaseUrl
+├── ○ f formatSitemapLastMod
+├── ○ f escapeXml
+├── ○ f toAbsoluteUrl
+├── ○ f buildSitemapXml
+└── ○ f buildSitemapIndexXml
+
+│ packages/sitemap/src/sveltekit/channels.ts
+├── ○ T SvelteKitRouteChannelPolicy
+│   ├── ○ copiedPrivateDirectories
+│   └── ○ variantsDirectory
+├── ○ T GenerateSvelteKitRouteChannelOptions
+│   ├── ○ sourceRoutesRoot
+│   ├── ○ generatedRoutesRoot
+│   ├── ○ channel
+│   ├── ○ policy
+│   └── ○ routeFiles
+├── ○ T CheckSvelteKitRouteChannelPolicyOptions
+│   ├── ○ sourceRoutesRoot
+│   ├── ○ policy
+│   └── ○ routeFiles
+├── ○ T GenerateSvelteKitRouteChannelResult
+│   ├── ○ channel
+│   ├── ○ targetRoot
+│   └── ○ includedRoutes
+├── ○ f getSvelteKitGeneratedRoutesRoot
+├── ○ f generateSvelteKitRouteChannel
+└── ○ f checkSvelteKitRouteChannelPolicy
+
+│ packages/sitemap/src/sveltekit/handlers.ts
+├── ○ T SitemapXmlHandlerOptions
+│   ├── ○ fallbackOrigin
+│   ├── ○ getRoutes
+│   └── ○ cacheControl
+├── ○ f createSitemapXmlHandler
+├── ○ T RobotsTxtLinesContext
+│   ├── ○ origin
+│   ├── ○ sitemapPath
+│   └── ○ sitemapUrl
+├── ○ T RobotsTxtHandlerOptions
+│   ├── ○ fallbackOrigin
+│   ├── ○ sitemapPath
+│   ├── ○ extraLines
+│   ├── ○ getLines
+│   └── ○ cacheControl
+└── ○ f createRobotsTxtHandler
+
+│ packages/sitemap/src/sveltekit/scanner.ts
+├── ○ T ScanSvelteKitRoutesOptions
+│   ├── ○ category
+│   ├── ○ name
+│   ├── ○ lastModified
+│   ├── ○ exclude
+│   ├── ○ skipDynamic
+│   ├── ○ serverGlob
+│   ├── ○ clientGlob
+│   ├── ○ layoutGlob
+│   ├── ○ flags
+│   └── ○ rootPrefix
+└── ○ f scanSvelteKitRoutes
+
+──────────────────────────────────────────────────
+
+✓ 52 files scanned
+  → 15 with public exports
+  → 71 public symbols
+  → 6 dependencies tracked
+
+Tip: Use 'codeatlas map' for visual dependency diagram

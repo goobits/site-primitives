@@ -1,0 +1,86 @@
+
+  CodeAtlas
+══════════════════════════════════════════════════
+
+○ public  ◐ internal  ● private
+
+│ core.ts
+├── ○ T ChangelogItem
+│   ├── ○ type
+│   ├── ○ content
+│   ├── ○ emoji
+│   └── ○ category
+├── ○ T ChangelogEntry
+│   ├── ○ version
+│   ├── ○ date
+│   └── ○ changes
+├── ○ f changesOfType
+├── ○ f formatChangelogDate
+└── ○ f formatChangelogVersion
+
+│ formatter.ts
+├── ○ T ChangeEntry
+│   ├── ○ type
+│   ├── ○ description
+│   ├── ○ issueRef
+│   └── ○ author
+├── ○ T VersionEntry
+│   ├── ○ version
+│   ├── ○ date
+│   └── ○ changes
+├── ○ T Changelog
+│   ├── ○ title
+│   ├── ○ description
+│   └── ○ versions
+├── ○ T FormatOptions
+│   ├── ○ includeAuthors
+│   ├── ○ includeIssueRefs
+│   └── ○ dateFormat
+├── ○ f getChangeTypeLabel
+├── ○ f formatChangelog
+├── ○ f createEmptyChangelog
+└── ○ f addVersion
+
+│ markdown.ts
+├── ○ f parseChangelog
+└── ○ f validateChangelog
+
+│ viewModel.ts
+├── ○ T ChangelogChangeViewModel
+│   ├── ○ type
+│   ├── ○ typeLabel
+│   ├── ○ description
+│   ├── ○ issueRef
+│   └── ○ author
+├── ○ T ChangelogSectionViewModel
+│   ├── ○ type
+│   ├── ○ title
+│   └── ○ changes
+├── ○ T ChangelogVersionViewModel
+│   ├── ○ version
+│   ├── ○ slug
+│   ├── ○ title
+│   ├── ○ dateLabel
+│   ├── ○ dateIso
+│   ├── ○ released
+│   ├── ○ sections
+│   └── ○ changeCount
+├── ○ T ChangelogViewModel
+│   ├── ○ title
+│   ├── ○ description
+│   ├── ○ versions
+│   ├── ○ latest
+│   ├── ○ versionCount
+│   └── ○ changeCount
+├── ○ f createChangelogViewModel
+├── ○ f createVersionSlug
+└── ○ f findChangelogVersion
+
+──────────────────────────────────────────────────
+
+✓ 7 files scanned
+  → 4 with public exports
+  → 22 public symbols
+  → 4 dependencies tracked
+
+Tip: Use 'codeatlas map' for visual dependency diagram

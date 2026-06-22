@@ -1,0 +1,34 @@
+
+  CodeAtlas
+══════════════════════════════════════════════════
+
+○ public  ◐ internal  ● private
+
+│ core.ts
+├── ○ T HumansTxtPerson
+│   ├── ○ role
+│   ├── ○ name
+│   ├── ○ url
+│   ├── ○ email
+│   ├── ○ description
+│   ├── ○ handle
+│   └── ○ handleUrl
+├── ○ T HumansTxtLibrary
+│   ├── ○ name
+│   ├── ○ author
+│   ├── ○ url
+│   └── ○ license
+├── ○ T HumansTxtModel
+│   ├── ○ ascii
+│   ├── ○ team
+│   ├── ○ contributors
+│   └── ○ libraries
+└── ○ f isLastItem
+
+──────────────────────────────────────────────────
+
+✓ 4 files scanned
+  → 1 with public exports
+  → 4 public symbols
+
+Tip: Use 'codeatlas map' for visual dependency diagram

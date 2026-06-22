@@ -1,0 +1,125 @@
+
+  CodeAtlas
+══════════════════════════════════════════════════
+
+○ public  ◐ internal  ● private
+
+│ core/builders.ts
+├── ○ T PageEntryOverrides
+│   ├── ○ hasServerLoad
+│   ├── ○ hasClientLoad
+│   ├── ○ hasLayout
+│   ├── ○ isDynamic
+│   ├── ○ hasAuth
+│   ├── ○ isNoIndex
+│   └── ○ sitemap
+├── ○ T ApiEntryOverrides
+│   ├── ○ isDynamic
+│   └── ○ sitemap
+├── ○ f createPageEntry
+├── ○ f createApiEntry
+├── ○ f groupRoutesByCategory
+├── ○ f computeRouteStats
+└── ○ f createRouteInventory
+
+│ core/channels.ts
+├── ○ T RouteChannelPolicyCheckOptions
+│   ├── ○ pageRoutes
+│   ├── ○ apiRoutes
+│   └── ○ ignoredRouteIds
+├── ○ f normalizeRouteChannel
+├── ○ f getRouteChannelTags
+├── ○ f isRouteInChannel
+├── ○ f filterEntriesForRouteChannel
+└── ○ f checkRouteChannelPolicy
+
+│ core/viewmodel.ts
+├── ○ f getSitemapAvailableTags
+├── ○ f getRouteTags
+├── ○ f getFilteredSitemapGroups
+├── ○ f getVisibleSitemapGroups
+├── ○ f getFilteredSitemapCount
+└── ○ f getSitemapAudiencesForVisibility
+
+│ ops/http.ts
+├── ○ f fetchWithTimeout
+└── ○ f retry
+
+│ ops/ping.ts
+└── ○ f pingSearchEngines
+
+│ ops/validate.ts
+└── ○ f validateSitemapUrls
+
+│ server/xml.ts
+├── ○ f resolveSiteOrigin
+├── ○ f getPlatformEnv
+├── ○ f getBaseUrl
+├── ○ f formatSitemapLastMod
+├── ○ f escapeXml
+├── ○ f toAbsoluteUrl
+├── ○ f buildSitemapXml
+└── ○ f buildSitemapIndexXml
+
+│ sveltekit/channels.ts
+├── ○ T SvelteKitRouteChannelPolicy
+│   ├── ○ copiedPrivateDirectories
+│   └── ○ variantsDirectory
+├── ○ T GenerateSvelteKitRouteChannelOptions
+│   ├── ○ sourceRoutesRoot
+│   ├── ○ generatedRoutesRoot
+│   ├── ○ channel
+│   ├── ○ policy
+│   └── ○ routeFiles
+├── ○ T CheckSvelteKitRouteChannelPolicyOptions
+│   ├── ○ sourceRoutesRoot
+│   ├── ○ policy
+│   └── ○ routeFiles
+├── ○ T GenerateSvelteKitRouteChannelResult
+│   ├── ○ channel
+│   ├── ○ targetRoot
+│   └── ○ includedRoutes
+├── ○ f getSvelteKitGeneratedRoutesRoot
+├── ○ f generateSvelteKitRouteChannel
+└── ○ f checkSvelteKitRouteChannelPolicy
+
+│ sveltekit/handlers.ts
+├── ○ T SitemapXmlHandlerOptions
+│   ├── ○ fallbackOrigin
+│   ├── ○ getRoutes
+│   └── ○ cacheControl
+├── ○ f createSitemapXmlHandler
+├── ○ T RobotsTxtLinesContext
+│   ├── ○ origin
+│   ├── ○ sitemapPath
+│   └── ○ sitemapUrl
+├── ○ T RobotsTxtHandlerOptions
+│   ├── ○ fallbackOrigin
+│   ├── ○ sitemapPath
+│   ├── ○ extraLines
+│   ├── ○ getLines
+│   └── ○ cacheControl
+└── ○ f createRobotsTxtHandler
+
+│ sveltekit/scanner.ts
+├── ○ T ScanSvelteKitRoutesOptions
+│   ├── ○ category
+│   ├── ○ name
+│   ├── ○ lastModified
+│   ├── ○ exclude
+│   ├── ○ skipDynamic
+│   ├── ○ serverGlob
+│   ├── ○ clientGlob
+│   ├── ○ layoutGlob
+│   ├── ○ flags
+│   └── ○ rootPrefix
+└── ○ f scanSvelteKitRoutes
+
+──────────────────────────────────────────────────
+
+✓ 20 files scanned
+  → 10 with public exports
+  → 45 public symbols
+  → 2 dependencies tracked
+
+Tip: Use 'codeatlas map' for visual dependency diagram
