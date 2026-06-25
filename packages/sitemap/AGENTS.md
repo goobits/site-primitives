@@ -47,7 +47,6 @@ src/
 ├── ui/
 │   ├── SitemapPage.svelte  # themable Svelte 5 component
 │   └── types.ts            # CategoryTone, CategoryMeta, SortOption
-├── svelte.d.ts      # package-local ambient declaration for `*.svelte` imports
 └── index.ts         # barrel re-exporting core + server (NOT ops — fetch-coupled, NOT ui — Svelte-coupled)
 ```
 
