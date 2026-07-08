@@ -46,11 +46,11 @@
 		}
 	},
 	"devDependencies": {
-		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@sveltejs/vite-plugin-svelte": "^7.1.4",
 		"svelte": "^5.56.4",
 		"svelte-check": "^4.7.1",
 		"typescript": "^6.0.3",
-		"vitest": "^4.1.9"
+		"vitest": "^4.1.10"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit && svelte-check --workspace src/ui --fail-on-warnings",
