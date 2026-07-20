@@ -91,6 +91,10 @@ import { pingSearchEngines, validateSitemapUrls } from '@goobits/sitemap/ops'
 
 The `core` and `server` surfaces are also re-exported from the root for convenience. `ops` is intentionally _not_ in the barrel so consumers that only build XML don't pull `fetch`-coupled code into client bundles.
 
+Sitemap paths keep the exact trailing-slash policy supplied by the host. Pass
+`/about` or `/about/` according to the canonical URL that serves without a
+redirect.
+
 ---
 
 ## Building `sitemap.xml`
