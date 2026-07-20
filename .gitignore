@@ -5,3 +5,10 @@ coverage/
 dist/
 *.tsbuildinfo
 **/.codeatlas/
+
+# Local Shelly queue state
+**/.llm/commit-queue/pending/
+**/.llm/commit-queue/active/
+**/.llm/commit-queue/done/
+**/.llm/commit-queue/failed/
+**/.llm/commit-queue/blocked/
