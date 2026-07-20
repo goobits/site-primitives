@@ -20,12 +20,19 @@ export type GlobResult = Record<string, unknown>
 
 /** Options for `scanSvelteKitRoutes`. */
 export interface ScanSvelteKitRoutesOptions {
+	/**
+	 * Normalizes each filesystem-derived route before exclusion, dynamic-route
+	 * detection, sibling matching, and metadata callbacks. Use this for routing
+	 * wrappers such as SvelteKit's optional `[[lang=lang]]` segment. Default:
+	 * identity.
+	 */
+	normalizePath?: (routePath: string, raw: string) => string
 
 	/**
- * Determines the category for each route. Receives the cleaned route
- * path (e.g. `/blog/category`, with route-group parens stripped).
- * Default: every route lands in `'Pages'`.
- */
+	 * Determines the category for each route. Receives the cleaned route
+	 * path (e.g. `/blog/category`, with route-group parens stripped).
+	 * Default: every route lands in `'Pages'`.
+	 */
 	category?: (routePath: string) => string
 
 	/**
@@ -128,11 +135,13 @@ function defaultName(routePath: string): string {
 	if (routePath === '/') return 'Home'
 	const last = routePath.split('/').filter(Boolean).pop() ?? ''
 	const cleaned = last.replace(/^\(.+\)$/, '')
-	return cleaned
-		.split('-')
-		.filter(Boolean)
-		.map(part => part.charAt(0).toUpperCase() + part.slice(1))
-		.join(' ') || 'Home'
+	return (
+		cleaned
+			.split('-')
+			.filter(Boolean)
+			.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+			.join(' ') || 'Home'
+	)
 }
 
 function defaultLastModified(): string {
@@ -214,27 +223,34 @@ export function scanSvelteKitRoutes(
 	const lastModified = options.lastModified ?? defaultLastModified
 	const exclude = options.exclude ?? (() => false)
 	const skipDynamic = options.skipDynamic ?? true
+	const normalizePath = options.normalizePath ?? ((routePath: string) => routePath)
 
 	// Build path-sets for each sibling-module glob so we can stamp the
 	// corresponding flag on each page entry.
 	const serverRoutes = new Set<string>()
 	if (options.serverGlob) {
 		for (const rawKey of Object.keys(options.serverGlob)) {
-			serverRoutes.add(rawSiblingToRoutePath(rawKey, rootPrefix, SERVER_SUFFIX_RE))
+			serverRoutes.add(
+				normalizePath(rawSiblingToRoutePath(rawKey, rootPrefix, SERVER_SUFFIX_RE), rawKey)
+			)
 		}
 	}
 
 	const clientRoutes = new Set<string>()
 	if (options.clientGlob) {
 		for (const rawKey of Object.keys(options.clientGlob)) {
-			clientRoutes.add(rawSiblingToRoutePath(rawKey, rootPrefix, CLIENT_SUFFIX_RE))
+			clientRoutes.add(
+				normalizePath(rawSiblingToRoutePath(rawKey, rootPrefix, CLIENT_SUFFIX_RE), rawKey)
+			)
 		}
 	}
 
 	const layoutRoutes = new Set<string>()
 	if (options.layoutGlob) {
 		for (const rawKey of Object.keys(options.layoutGlob)) {
-			layoutRoutes.add(rawSiblingToRoutePath(rawKey, rootPrefix, LAYOUT_SUFFIX_RE))
+			layoutRoutes.add(
+				normalizePath(rawSiblingToRoutePath(rawKey, rootPrefix, LAYOUT_SUFFIX_RE), rawKey)
+			)
 		}
 	}
 
@@ -243,7 +259,7 @@ export function scanSvelteKitRoutes(
 	const out: PageRouteEntry[] = []
 
 	for (const raw of Object.keys(pageGlob)) {
-		const routePath = rawToRoutePath(raw, rootPrefix)
+		const routePath = normalizePath(rawToRoutePath(raw, rootPrefix), raw)
 		if (exclude(routePath, raw)) continue
 
 		const isDynamic = DYNAMIC_RE.test(routePath)
@@ -252,15 +268,27 @@ export function scanSvelteKitRoutes(
 		const consumerFlags = flagsFn(routePath)
 
 		out.push(
-			createPageEntry(routePath, name(routePath), category(routePath), lastModified(routePath), {
-				hasServerLoad: serverRoutes.has(routePath),
-				hasClientLoad: consumerFlags.hasClientLoad ?? clientRoutes.has(routePath),
-				hasLayout: consumerFlags.hasLayout ?? layoutRoutes.has(routePath),
-				isDynamic,
-				...(consumerFlags.hasAuth !== undefined ? { hasAuth: consumerFlags.hasAuth } : {}),
-				...(consumerFlags.isNoIndex !== undefined ? { isNoIndex: consumerFlags.isNoIndex } : {}),
-				...(consumerFlags.sitemap !== undefined ? { sitemap: consumerFlags.sitemap } : {})
-			})
+			createPageEntry(
+				routePath,
+				name(routePath),
+				category(routePath),
+				lastModified(routePath),
+				{
+					hasServerLoad: serverRoutes.has(routePath),
+					hasClientLoad: consumerFlags.hasClientLoad ?? clientRoutes.has(routePath),
+					hasLayout: consumerFlags.hasLayout ?? layoutRoutes.has(routePath),
+					isDynamic,
+					...(consumerFlags.hasAuth !== undefined
+						? { hasAuth: consumerFlags.hasAuth }
+						: {}),
+					...(consumerFlags.isNoIndex !== undefined
+						? { isNoIndex: consumerFlags.isNoIndex }
+						: {}),
+					...(consumerFlags.sitemap !== undefined
+						? { sitemap: consumerFlags.sitemap }
+						: {})
+				}
+			)
 		)
 	}
 

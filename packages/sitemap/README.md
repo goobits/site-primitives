@@ -16,11 +16,14 @@ Reusable sitemap building blocks for SvelteKit (and any modern Fetch-API runtime
 - **Generic route inventory:** `SitemapEntry` types cover both page and API routes; host supplies the data, package supplies the transformations
 - **Filter / sort / visibility:** pure functions for human-facing sitemap UIs with audience-aware tag filtering (`public` vs `internal`)
 - **XML generators:** `sitemap.xml` and `sitemap-index.xml` (for sites that shard past the 50k-URL limit)
-- **Origin resolution:** 3-tier fallback: explicit `baseUrl` → request origin (non-localhost) → caller-supplied default
+- **Origin resolution:** 3-tier fallback: explicit `baseUrl` → real request origin → caller-supplied default; local and SvelteKit prerender origins never leak into public URLs
 - **Search-engine pings:** `pingSearchEngines` notifies a caller-supplied list of endpoints, with timeout + retry + per-engine result reporting
 - **URL validation:** `validateSitemapUrls` HEAD-checks a sampled URL list, surfaces 404s and timeouts, runs concurrent batches
 - **No runtime dependencies:** uses `fetch` from `globalThis`; pure functions everywhere else
 - **Pluggable logger:** `ops/*` accept a `Logger` interface; bring your own (Pino, Winston, console, or silent)
+- **Routing-wrapper normalization:** the SvelteKit scanner can remove optional
+  locale or tenant segments before it decides whether a route is dynamic and
+  before it matches sibling load/layout modules
 - **ESM-only, TypeScript-native:** subpath exports for tree-shaking; verified on Node 22, with `core`/`server` designed for modern TypeScript runtimes and `ops` designed for runtimes with `globalThis.fetch`
 
 ## Requirements
@@ -120,6 +123,22 @@ export const GET = async ({ url, platform }) => {
 	})
 }
 ```
+
+## Scanning wrapped SvelteKit routes
+
+Normalize filesystem-only route wrappers at the scanner boundary. The cleaned
+path is then used consistently for dynamic filtering, exclusions, categories,
+names, flags, and sibling-module matching:
+
+```ts
+const routes = scanSvelteKitRoutes(pageGlob, {
+	serverGlob,
+	normalizePath: (path) => path.replace(/^\/\[\[lang=lang\]\]/, '') || '/'
+})
+```
+
+This keeps optional language segments from making every otherwise-static page
+look dynamic.
 
 ## Multi-shard sitemaps (`sitemap-index.xml`)
 

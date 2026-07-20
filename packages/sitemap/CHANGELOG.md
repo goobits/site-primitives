@@ -5,6 +5,18 @@ This package is now maintained in `goobits/site-primitives` under
 
 All notable changes to `@goobits/sitemap` are documented here. The format adheres to [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Ignore SvelteKit's synthetic prerender origin when generating sitemap and
+  robots URLs, so prerendered production artifacts use the configured fallback.
+- Normalize consumer-specific route wrappers before dynamic-route detection and
+  sibling metadata matching, so optional language segments do not empty an
+  otherwise-static sitemap.
+- Omit invalid last-modified values and hidden, internal, or noindex routes
+  from search-engine XML instead of emitting unstable or private entries.
+
 ## [0.2.0] - 2026-05-21
 
 Adds drop-in SvelteKit endpoints, a filesystem-route auto-scanner, and `core` builders. No breaking changes from v0.1.0.

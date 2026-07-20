@@ -61,13 +61,8 @@ describe('formatSitemapLastMod', () => {
 		expect(formatSitemapLastMod('2026-05-20T12:00:00Z')).toBe('2026-05-20T12:00:00.000Z')
 	})
 
-	it('returns now() for invalid input', () => {
-		const before = Date.now()
-		const out = formatSitemapLastMod('not-a-date')
-		const after = Date.now()
-		const outTime = new Date(out).getTime()
-		expect(outTime).toBeGreaterThanOrEqual(before)
-		expect(outTime).toBeLessThanOrEqual(after)
+	it('returns undefined for invalid input', () => {
+		expect(formatSitemapLastMod('not-a-date')).toBeUndefined()
 	})
 })
 
@@ -114,6 +109,27 @@ describe('buildSitemapXml', () => {
 		])
 		expect(xml).not.toContain('changefreq')
 		expect(xml).not.toContain('priority')
+	})
+
+	it('omits invalid last-modified values instead of inventing the current time', () => {
+		const xml = buildSitemapXml('https://example.com', [
+			{ path: '/about', lastModified: 'not-a-date' }
+		])
+		expect(xml).toContain('<url><loc>https://example.com/about/</loc></url>')
+		expect(xml).not.toContain('lastmod')
+	})
+
+	it('omits hidden, internal, and noindex routes', () => {
+		const xml = buildSitemapXml('https://example.com', [
+			{ path: '/public', lastModified: '2026-01-01T00:00:00Z' },
+			{ path: '/hidden', lastModified: '2026-01-01T00:00:00Z', sitemap: 'hidden' },
+			{ path: '/internal', lastModified: '2026-01-01T00:00:00Z', sitemap: 'internal' },
+			{ path: '/noindex', lastModified: '2026-01-01T00:00:00Z', isNoIndex: true }
+		])
+		expect(xml).toContain('https://example.com/public/')
+		expect(xml).not.toContain('/hidden/')
+		expect(xml).not.toContain('/internal/')
+		expect(xml).not.toContain('/noindex/')
 	})
 
 	it('clamps priority to [0,1] and rounds to one decimal', () => {
@@ -166,6 +182,14 @@ describe('buildSitemapIndexXml', () => {
 		const xml = buildSitemapIndexXml([ { loc: 'https://example.com/a&b' } ])
 		expect(xml).toContain('&amp;')
 	})
+
+	it('omits invalid index last-modified values', () => {
+		const xml = buildSitemapIndexXml([
+			{ loc: 'https://example.com/sitemap-pages.xml', lastModified: 'not-a-date' }
+		])
+		expect(xml).toContain('<sitemap><loc>https://example.com/sitemap-pages.xml</loc></sitemap>')
+		expect(xml).not.toContain('lastmod')
+	})
 })
 
 describe('resolveSiteOrigin', () => {
@@ -212,6 +236,15 @@ describe('resolveSiteOrigin', () => {
 		expect(
 			resolveSiteOrigin({
 				requestUrl: new URL('http://127.0.0.1:3000/about'),
+				fallbackOrigin: fallback
+			})
+		).toBe(fallback)
+	})
+
+	it('ignores SvelteKit synthetic prerender origin', () => {
+		expect(
+			resolveSiteOrigin({
+				requestUrl: new URL('http://sveltekit-prerender/sitemap.xml'),
 				fallbackOrigin: fallback
 			})
 		).toBe(fallback)

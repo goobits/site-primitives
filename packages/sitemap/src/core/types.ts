@@ -108,6 +108,8 @@ export type SitemapRoute = {
 	path: string
 	lastModified: string
 	changefreq?: SitemapChangeFreq
+	isNoIndex?: boolean
+	sitemap?: SitemapAudience
 
 	/** A value in `[0.0, 1.0]`. Default per spec is `0.5`. */
 	priority?: number

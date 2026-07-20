@@ -56,6 +56,15 @@ describe('createSitemapXmlHandler', () => {
 		expect(response.headers.get('cache-control')).toBe('public, max-age=3600')
 	})
 
+	it('uses the fallback origin during SvelteKit prerendering', async () => {
+		const handler = createSitemapXmlHandler({
+			fallbackOrigin: 'https://example.com',
+			getRoutes: () => [{ path: '/about', lastModified: '2026-05-21T00:00:00Z' }]
+		})
+		const response = await handler(mkEvent('http://sveltekit-prerender/sitemap.xml'))
+		expect(await response.text()).toContain('https://example.com/about/')
+	})
+
 	it('honors custom cache-control', async () => {
 		const handler = createSitemapXmlHandler({
 			fallbackOrigin: 'https://example.com',

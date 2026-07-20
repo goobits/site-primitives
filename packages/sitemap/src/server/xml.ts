@@ -18,7 +18,12 @@ function trimTrailingSlash(value: string) {
 function isLocalOrigin(origin: string) {
 	try {
 		const { hostname } = new URL(origin)
-		return hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.local')
+		return (
+			hostname === 'localhost' ||
+			hostname === '127.0.0.1' ||
+			hostname === 'sveltekit-prerender' ||
+			hostname.endsWith('.local')
+		)
 	} catch {
 		return true
 	}
@@ -120,7 +125,7 @@ export function getBaseUrl(platformEnv: Record<string, string | undefined> | und
  */
 export function formatSitemapLastMod(isoString: string) {
 	const date = new Date(isoString)
-	return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString()
+	return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
 }
 
 /**
@@ -177,9 +182,10 @@ function clampPriority(value: number | undefined): string | undefined {
  * @param routes - routes value.
  */
 export function buildSitemapXml(origin: string, routes: SitemapRoute[]) {
-	const urlEntries = routes.map(route => {
+	const urlEntries = routes.filter(isPublicSitemapRoute).map(route => {
 		const loc = escapeXml(toAbsoluteUrl(origin, route.path))
-		const lastMod = escapeXml(formatSitemapLastMod(route.lastModified))
+		const lastMod = formatSitemapLastMod(route.lastModified)
+		const lastModPart = lastMod ? `<lastmod>${ escapeXml(lastMod) }</lastmod>` : ''
 		const changefreqPart = route.changefreq
 			? `<changefreq>${ escapeXml(route.changefreq) }</changefreq>`
 			: ''
@@ -187,10 +193,16 @@ export function buildSitemapXml(origin: string, routes: SitemapRoute[]) {
 		const priorityPart = priorityValue
 			? `<priority>${ priorityValue }</priority>`
 			: ''
-		return `<url><loc>${ loc }</loc><lastmod>${ lastMod }</lastmod>${ changefreqPart }${ priorityPart }</url>`
+		return `<url><loc>${ loc }</loc>${ lastModPart }${ changefreqPart }${ priorityPart }</url>`
 	}).join('')
 
 	return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${ urlEntries }</urlset>`
+}
+
+function isPublicSitemapRoute(route: SitemapRoute) {
+	return route.sitemap !== 'internal'
+		&& route.sitemap !== 'hidden'
+		&& route.isNoIndex !== true
 }
 
 /**
@@ -213,9 +225,10 @@ export type SitemapIndexEntry = {
 export function buildSitemapIndexXml(entries: SitemapIndexEntry[]) {
 	const sitemapEntries = entries.map(entry => {
 		const loc = escapeXml(entry.loc)
-		const lastModPart = entry.lastModified
-			? `<lastmod>${ escapeXml(formatSitemapLastMod(entry.lastModified)) }</lastmod>`
-			: ''
+		const lastMod = entry.lastModified
+			? formatSitemapLastMod(entry.lastModified)
+			: undefined
+		const lastModPart = lastMod ? `<lastmod>${ escapeXml(lastMod) }</lastmod>` : ''
 		return `<sitemap><loc>${ loc }</loc>${ lastModPart }</sitemap>`
 	}).join('')
 
