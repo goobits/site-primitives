@@ -143,22 +143,16 @@ export function escapeXml(value: string) {
 }
 
 /**
- * Build a canonical absolute URL from a site origin + path. Adds a trailing
- * slash to non-file, non-root paths (which most search engines treat as
- * directory URLs); preserves file extensions and the bare root.
+ * Build a canonical absolute URL from a site origin + caller-owned path.
+ * Preserves the supplied path shape so hosts can match their routing policy
+ * without adding a redirect to every sitemap URL.
  *
  * @param origin - origin value.
  * @param path - Path to use.
  */
 export function toAbsoluteUrl(origin: string, path: string) {
 	const normalizedPath = path.startsWith('/') ? path : `/${ path }`
-	const lastSegment = normalizedPath.split('/').pop() ?? ''
-	const hasFileExtension = /\.[a-z0-9]+$/i.test(lastSegment)
-	const canonicalPath =
-		normalizedPath === '/' || hasFileExtension || normalizedPath.endsWith('/')
-			? normalizedPath
-			: `${ normalizedPath }/`
-	return `${ trimTrailingSlash(origin) }${ canonicalPath }`
+	return `${ trimTrailingSlash(origin) }${ normalizedPath }`
 }
 
 function clampPriority(value: number | undefined): string | undefined {

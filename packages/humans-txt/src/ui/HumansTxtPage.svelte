@@ -270,7 +270,7 @@
 	}
 
 	.gb-humans-txt-syntax__comment {
-		color: var(--gb-humans-txt-comment, #6272a4);
+		color: var(--gb-humans-txt-comment, #8b9acb);
 		white-space: pre;
 	}
 
@@ -298,12 +298,9 @@
 	.gb-humans-txt-syntax__path a,
 	.gb-humans-txt-syntax__operator a {
 		color: inherit;
-		text-decoration: none;
-	}
-
-	.gb-humans-txt-syntax__path a:hover,
-	.gb-humans-txt-syntax__operator a:hover {
 		text-decoration: underline;
+		text-decoration-thickness: 0.08em;
+		text-underline-offset: 0.16em;
 	}
 
 	.gb-humans-txt__cursor {

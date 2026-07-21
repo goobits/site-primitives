@@ -7,6 +7,11 @@ All notable changes to `@goobits/sitemap` are documented here. The format adhere
 
 ## [Unreleased]
 
+### Changed
+
+- Preserve the host's canonical trailing-slash policy when rendering sitemap
+  URLs instead of forcing directory-style slashes.
+
 ### Fixed
 
 - Ignore SvelteKit's synthetic prerender origin when generating sitemap and

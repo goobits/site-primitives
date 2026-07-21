@@ -43,8 +43,8 @@ describe('createSitemapXmlHandler', () => {
 		expect(response.headers.get('content-type')).toBe('application/xml; charset=utf-8')
 		const body = await response.text()
 		expect(body).toContain('<?xml version="1.0"')
-		expect(body).toContain('<url><loc>https://example.com/about/')
-		expect(body).toContain('<url><loc>https://example.com/contact/')
+		expect(body).toContain('<url><loc>https://example.com/about</loc>')
+		expect(body).toContain('<url><loc>https://example.com/contact</loc>')
 	})
 
 	it('uses default cache-control header', async () => {
@@ -81,7 +81,7 @@ describe('createSitemapXmlHandler', () => {
 			getRoutes: async () => [{ path: '/async', lastModified: '2026-05-21T00:00:00Z' }]
 		})
 		const body = await (await handler(mkEvent())).text()
-		expect(body).toContain('/async/')
+		expect(body).toContain('/async</loc>')
 	})
 
 	it('preserves optional sitemap route metadata', async () => {
@@ -113,7 +113,7 @@ describe('createSitemapXmlHandler', () => {
 				})
 			)
 		).text()
-		expect(body).toContain('https://prod.example.com/x/')
+		expect(body).toContain('https://prod.example.com/x</loc>')
 		expect(body).not.toContain('fallback.example.com')
 	})
 })

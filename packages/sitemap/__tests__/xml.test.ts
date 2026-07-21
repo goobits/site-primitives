@@ -30,16 +30,16 @@ describe('toAbsoluteUrl', () => {
 	const origin = 'https://example.com'
 
 	it('strips trailing slash from origin', () => {
-		expect(toAbsoluteUrl('https://example.com/', '/about')).toBe('https://example.com/about/')
+		expect(toAbsoluteUrl('https://example.com/', '/about')).toBe('https://example.com/about')
 	})
 
 	it('preserves bare root path', () => {
 		expect(toAbsoluteUrl(origin, '/')).toBe('https://example.com/')
 	})
 
-	it('adds trailing slash to non-file directory paths', () => {
-		expect(toAbsoluteUrl(origin, '/about')).toBe('https://example.com/about/')
-		expect(toAbsoluteUrl(origin, '/blog/post-1')).toBe('https://example.com/blog/post-1/')
+	it('preserves caller-owned canonical path shape', () => {
+		expect(toAbsoluteUrl(origin, '/about')).toBe('https://example.com/about')
+		expect(toAbsoluteUrl(origin, '/blog/post-1/')).toBe('https://example.com/blog/post-1/')
 	})
 
 	it('preserves file extensions (no trailing slash)', () => {
@@ -48,7 +48,7 @@ describe('toAbsoluteUrl', () => {
 	})
 
 	it('adds leading slash if missing', () => {
-		expect(toAbsoluteUrl(origin, 'about')).toBe('https://example.com/about/')
+		expect(toAbsoluteUrl(origin, 'about')).toBe('https://example.com/about')
 	})
 
 	it('preserves existing trailing slashes', () => {
@@ -78,8 +78,8 @@ describe('buildSitemapXml', () => {
 			{ path: '/about', lastModified: '2026-05-20T00:00:00Z' },
 			{ path: '/contact', lastModified: '2026-05-20T00:00:00Z' }
 		])
-		expect(xml).toContain('<url><loc>https://example.com/about/</loc>')
-		expect(xml).toContain('<url><loc>https://example.com/contact/</loc>')
+		expect(xml).toContain('<url><loc>https://example.com/about</loc>')
+		expect(xml).toContain('<url><loc>https://example.com/contact</loc>')
 	})
 
 	it('XML-escapes characters in URLs', () => {
