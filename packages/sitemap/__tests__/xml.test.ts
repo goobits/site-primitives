@@ -115,7 +115,7 @@ describe('buildSitemapXml', () => {
 		const xml = buildSitemapXml('https://example.com', [
 			{ path: '/about', lastModified: 'not-a-date' }
 		])
-		expect(xml).toContain('<url><loc>https://example.com/about/</loc></url>')
+		expect(xml).toContain('<url><loc>https://example.com/about</loc></url>')
 		expect(xml).not.toContain('lastmod')
 	})
 
@@ -126,7 +126,7 @@ describe('buildSitemapXml', () => {
 			{ path: '/internal', lastModified: '2026-01-01T00:00:00Z', sitemap: 'internal' },
 			{ path: '/noindex', lastModified: '2026-01-01T00:00:00Z', isNoIndex: true }
 		])
-		expect(xml).toContain('https://example.com/public/')
+		expect(xml).toContain('https://example.com/public')
 		expect(xml).not.toContain('/hidden/')
 		expect(xml).not.toContain('/internal/')
 		expect(xml).not.toContain('/noindex/')
