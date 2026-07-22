@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
 	test: {
+		...(process.env.CI ? {} : { maxWorkers: 2 }),
 		include: [ '__tests__/**/*.test.ts' ],
 		environment: 'node',
 		coverage: {

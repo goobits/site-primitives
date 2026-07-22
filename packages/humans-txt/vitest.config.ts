@@ -4,6 +4,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
 	plugins: [ svelte() ],
 	test: {
+		...(process.env.CI ? {} : { maxWorkers: 2 }),
 		environment: 'node'
 	}
 })
