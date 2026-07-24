@@ -8,10 +8,9 @@
 		"test": "pnpm -r --if-present test",
 		"typecheck": "pnpm -r --if-present typecheck",
 		"clean": "pnpm -r --if-present clean",
-		"api:codeatlas": "npx --yes @goobits/codeatlas@0.3.1",
-		"api:scan": "pnpm run api:codeatlas -- scan . --format json --out .codeatlas",
-		"api:audit": "pnpm run api:codeatlas -- audit .",
-		"api:map": "pnpm run api:codeatlas -- map . --out .codeatlas/atlas.mmd"
+		"api:scan": "pnpm --dir ../../.. codeatlas scan packages/@goobits/site-primitives --format json --out packages/@goobits/site-primitives/.codeatlas",
+		"api:audit": "pnpm --dir ../../.. codeatlas audit packages/@goobits/site-primitives",
+		"api:map": "pnpm --dir ../../.. codeatlas map packages/@goobits/site-primitives --out packages/@goobits/site-primitives/.codeatlas/atlas.mmd"
 	},
 	"engines": {
 		"node": ">=22"
