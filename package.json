@@ -7,10 +7,7 @@
 	"scripts": {
 		"test": "pnpm -r --if-present test",
 		"typecheck": "pnpm -r --if-present typecheck",
-		"clean": "pnpm -r --if-present clean",
-		"api:scan": "pnpm --dir ../../.. codeatlas scan packages/@goobits/site-primitives --format json --out packages/@goobits/site-primitives/.codeatlas",
-		"api:audit": "pnpm --dir ../../.. codeatlas audit packages/@goobits/site-primitives",
-		"api:map": "pnpm --dir ../../.. codeatlas map packages/@goobits/site-primitives --out packages/@goobits/site-primitives/.codeatlas/atlas.mmd"
+		"clean": "pnpm -r --if-present clean"
 	},
 	"engines": {
 		"node": ">=22"
