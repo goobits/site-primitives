@@ -4,7 +4,16 @@ node_modules/
 coverage/
 dist/
 *.tsbuildinfo
+**/node_modules
+**/.turbo
+**/.svelte-kit
+**/coverage
+**/dist
+**/playwright-report
+**/test-results
 **/.codeatlas/
+**/.codeatlas
+**/.llm
 
 # Local Shelly queue state
 **/.llm/commit-queue/pending/
