@@ -12,6 +12,7 @@
  */
 
 import { fetchWithTimeout } from './http.ts'
+import type { SitemapOperationLogger } from './_sitemapOperationLogger.ts'
 
 /** Outcome for a single URL's HEAD probe. */
 export type SitemapUrlHeadResult =
@@ -28,7 +29,6 @@ export type SitemapValidationResult = {
 
 /** Options for `validateSitemapUrls`. */
 export type ValidateSitemapUrlsOptions = {
-
 	/** Per-request timeout in milliseconds. Default: 5000. */
 	timeoutMs?: number
 
@@ -39,14 +39,7 @@ export type ValidateSitemapUrlsOptions = {
 	maxErrors?: number
 
 	/** Optional logger; defaults to silent. */
-	logger?: ValidateLogger
-}
-
-/** Minimal logger interface — bring your own or omit for silent operation. */
-export type ValidateLogger = {
-	info?: (message: string, context?: Record<string, unknown>) => void
-	warn?: (message: string, context?: Record<string, unknown>) => void
-	error?: (message: string, context?: Record<string, unknown>) => void
+	logger?: SitemapOperationLogger
 }
 
 async function headCheckUrl(url: string, timeoutMs: number): Promise<SitemapUrlHeadResult> {
@@ -56,7 +49,7 @@ async function headCheckUrl(url: string, timeoutMs: number): Promise<SitemapUrlH
 			return { url, ok: true, status: response.status }
 		}
 		return { url, ok: false, status: response.status }
-	} catch(error) {
+	} catch (error) {
 		return {
 			url,
 			ok: false,
@@ -66,9 +59,9 @@ async function headCheckUrl(url: string, timeoutMs: number): Promise<SitemapUrlH
 }
 
 function formatHeadCheckError(result: SitemapUrlHeadResult): string {
-	if (result.ok === true) return `${ result.url }: OK`
-	if (result.error) return `${ result.url }: ${ result.error }`
-	return `${ result.url }: HTTP ${ result.status ?? 'unknown' }`
+	if (result.ok === true) return `${result.url}: OK`
+	if (result.error) return `${result.url}: ${result.error}`
+	return `${result.url}: HTTP ${result.status ?? 'unknown'}`
 }
 
 /**
@@ -97,7 +90,7 @@ export async function validateSitemapUrls(
 	const timeoutMs = Math.max(1, options.timeoutMs ?? 5000)
 	const concurrency = Math.max(1, options.concurrency ?? 6)
 	const maxErrors = Math.max(1, options.maxErrors ?? 10)
-	const logger: ValidateLogger = options.logger ?? {}
+	const logger: SitemapOperationLogger = options.logger ?? {}
 
 	const errors: string[] = []
 	const results: SitemapUrlHeadResult[] = []
@@ -106,7 +99,7 @@ export async function validateSitemapUrls(
 
 	for (let start = 0; start < urls.length; start += concurrency) {
 		const chunk = urls.slice(start, start + concurrency)
-		const chunkResults = await Promise.all(chunk.map(url => headCheckUrl(url, timeoutMs)))
+		const chunkResults = await Promise.all(chunk.map((url) => headCheckUrl(url, timeoutMs)))
 
 		for (const result of chunkResults) {
 			results.push(result)
@@ -119,7 +112,8 @@ export async function validateSitemapUrls(
 		}
 	}
 
-	if (invalid > 0) logger.warn?.('Sitemap URL validation found broken links', { invalid, sampled: urls.length })
+	if (invalid > 0)
+		logger.warn?.('Sitemap URL validation found broken links', { invalid, sampled: urls.length })
 	else logger.info?.('Sitemap URL validation clean', { valid, sampled: urls.length })
 
 	return { valid, invalid, errors, results }

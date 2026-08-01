@@ -285,35 +285,24 @@ describe('getPlatformEnv', () => {
 })
 
 describe('getBaseUrl', () => {
-	let originalProcessBaseUrl: string | undefined
 	let originalProcessPublicBaseUrl: string | undefined
 
 	beforeEach(() => {
-		originalProcessBaseUrl = process.env['BASE_URL']
 		originalProcessPublicBaseUrl = process.env['PUBLIC_BASE_URL']
-		delete process.env['BASE_URL']
 		delete process.env['PUBLIC_BASE_URL']
 	})
 
 	afterEach(() => {
-		if (originalProcessBaseUrl !== undefined) process.env['BASE_URL'] = originalProcessBaseUrl
-		else delete process.env['BASE_URL']
 		if (originalProcessPublicBaseUrl !== undefined) process.env['PUBLIC_BASE_URL'] = originalProcessPublicBaseUrl
 		else delete process.env['PUBLIC_BASE_URL']
 	})
 
-	it('prefers process.env.PUBLIC_BASE_URL over BASE_URL', () => {
+	it('reads process.env.PUBLIC_BASE_URL', () => {
 		process.env['PUBLIC_BASE_URL'] = 'https://public.example.com'
-		process.env['BASE_URL'] = 'https://internal.example.com'
 		expect(getBaseUrl(undefined)).toBe('https://public.example.com')
 	})
 
-	it('falls back to BASE_URL when PUBLIC_BASE_URL absent', () => {
-		process.env['BASE_URL'] = 'https://internal.example.com'
-		expect(getBaseUrl(undefined)).toBe('https://internal.example.com')
-	})
-
-	it('falls back to platform env when process.env has neither', () => {
+	it('reads platform env when process.env is unset', () => {
 		expect(getBaseUrl({ PUBLIC_BASE_URL: 'https://platform.example.com' })).toBe('https://platform.example.com')
 	})
 

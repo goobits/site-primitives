@@ -1,10 +1,8 @@
 /**
  * Server-side helpers: XML builder, origin resolution, URL canonicalization.
  *
- * Reads `process.env.PUBLIC_BASE_URL` and `process.env.BASE_URL` when no
- * platform-supplied env or explicit `baseUrl` is available; safe to call on
- * any runtime that exposes `process` (or that doesn't — in which case the
- * fallback chain handles `undefined` gracefully).
+ * Reads `PUBLIC_BASE_URL` when no explicit `baseUrl` is available; safe to
+ * call on any runtime that exposes `process` or platform-supplied env.
  *
  * @module @goobits/sitemap/server
  */
@@ -95,24 +93,18 @@ export function getPlatformEnv(platform: unknown): Record<string, string | undef
 }
 
 /**
- * Pull `PUBLIC_BASE_URL` (preferred) or `BASE_URL` from either `process.env`
- * or platform env (whichever defines it first). Returns `undefined` if
- * neither is set.
+ * Pull `PUBLIC_BASE_URL` from `process.env` or platform env. Returns
+ * `undefined` if neither source defines it.
  *
  * @param platformEnv - platform env value.
  */
 export function getBaseUrl(platformEnv: Record<string, string | undefined> | undefined) {
 	const processEnv = typeof process !== 'undefined' ? process.env : undefined
-	const processBaseUrl =
-		normalizeConfiguredBaseUrl(processEnv?.['PUBLIC_BASE_URL']) ||
-		normalizeConfiguredBaseUrl(processEnv?.['BASE_URL'])
+	const processBaseUrl = normalizeConfiguredBaseUrl(processEnv?.['PUBLIC_BASE_URL'])
 	if (processBaseUrl) return processBaseUrl
 
 	try {
-		return (
-			normalizeConfiguredBaseUrl(platformEnv?.['PUBLIC_BASE_URL']) ||
-			normalizeConfiguredBaseUrl(platformEnv?.['BASE_URL'])
-		)
+		return normalizeConfiguredBaseUrl(platformEnv?.['PUBLIC_BASE_URL'])
 	} catch {
 		return undefined
 	}

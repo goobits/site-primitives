@@ -13,7 +13,7 @@ import { buildSitemapXml, getBaseUrl, getPlatformEnv, resolveSiteOrigin } from '
 
 /** Options for `createSitemapXmlHandler`. */
 export interface SitemapXmlHandlerOptions {
-	/** Last-resort origin when neither `PUBLIC_BASE_URL`/`BASE_URL` nor the request origin yield a usable value. */
+	/** Last-resort origin when neither `PUBLIC_BASE_URL` nor the request origin yields a usable value. */
 	fallbackOrigin: string
 
 	/**

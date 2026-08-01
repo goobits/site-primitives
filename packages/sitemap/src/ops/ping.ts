@@ -12,7 +12,8 @@
  * @module @goobits/sitemap/ops
  */
 
-import { fetchWithTimeout, retry } from './http.ts'
+import { fetchWithTimeout, retry, type RetryOptions } from './http.ts'
+import type { SitemapOperationLogger } from './_sitemapOperationLogger.ts'
 
 /** A single search-engine ping target. `baseUrl` is the URL prefix; the sitemap URL is URL-encoded and appended. */
 export type SearchEnginePingTarget = {
@@ -28,13 +29,6 @@ export type SitemapPingResult = {
 	error?: string
 }
 
-/** Retry behavior for transient search-engine ping failures. */
-export type RetryOptions = {
-	retries?: number
-	delayMs?: number
-	shouldRetry?: (error: unknown) => boolean
-}
-
 /** Options for the orchestrator `pingSearchEngines`. */
 export type PingSearchEnginesOptions = {
 	/** Engines to notify. Caller supplies — no implicit default. */
@@ -47,14 +41,7 @@ export type PingSearchEnginesOptions = {
 	retry?: RetryOptions
 
 	/** Optional logger; defaults to silent. */
-	logger?: PingLogger
-}
-
-/** Minimal logger interface — bring your own or omit for silent operation. */
-export type PingLogger = {
-	info?: (message: string, context?: Record<string, unknown>) => void
-	warn?: (message: string, context?: Record<string, unknown>) => void
-	error?: (message: string, context?: Record<string, unknown>) => void
+	logger?: SitemapOperationLogger
 }
 
 /**
@@ -73,7 +60,7 @@ async function pingSearchEngine(
 	sitemapUrl: string,
 	timeoutMs: number,
 	retryOptions: RetryOptions,
-	logger: PingLogger
+	logger: SitemapOperationLogger
 ): Promise<SitemapPingResult> {
 	const target = `${engine.baseUrl}${encodeURIComponent(sitemapUrl)}`
 
@@ -127,7 +114,7 @@ export async function pingSearchEngines(
 ): Promise<SitemapPingResult[]> {
 	const timeoutMs = options.timeoutMs ?? 5000
 	const retryOptions: RetryOptions = options.retry ?? { retries: 1, delayMs: 200 }
-	const logger: PingLogger = options.logger ?? {}
+	const logger: SitemapOperationLogger = options.logger ?? {}
 
 	if (!Array.isArray(options.engines) || options.engines.length === 0) return []
 

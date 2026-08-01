@@ -1,8 +1,7 @@
 import { type Changelog, ChangeType, type ChangeEntry, type VersionEntry } from './formatter.ts'
 
 export type ParseResult<T> =
-	| { readonly success: true; readonly data: T }
-	| { readonly success: false; readonly error: string }
+	{ readonly success: true; readonly data: T } | { readonly success: false; readonly error: string }
 
 const VERSION_HEADER_REGEX = /^##\s*\[([^\]]+)\](?:\s*-\s*(.+))?$/
 const SECTION_HEADER_REGEX = /^###\s*(.+)$/
@@ -15,24 +14,6 @@ function parseChangeType(label: string): ChangeType | undefined {
 		.toLowerCase()
 		.replace(/[^\p{L}\p{N}\s-]/gu, '')
 		.trim()
-	const aliases: Readonly<Record<string, ChangeType>> = {
-		highlight: ChangeType.Highlights,
-		highlights: ChangeType.Highlights,
-		added: ChangeType.Added,
-		changed: ChangeType.Changed,
-		deprecated: ChangeType.Deprecated,
-		removed: ChangeType.Removed,
-		fixed: ChangeType.Fixed,
-		performance: ChangeType.Performance,
-		perf: ChangeType.Performance,
-		security: ChangeType.Security,
-		internal: ChangeType.Internal
-	}
-	const aliased = aliases[normalized]
-	if (aliased !== undefined) {
-		return aliased
-	}
-
 	const values = Object.values(ChangeType) as string[]
 	return values.includes(normalized) ? (normalized as ChangeType) : undefined
 }

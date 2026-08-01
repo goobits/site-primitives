@@ -2,19 +2,14 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { createRobotsTxtHandler, createSitemapXmlHandler } from '@goobits/sitemap/sveltekit'
 
-let originalBaseUrl: string | undefined
 let originalPublicBaseUrl: string | undefined
 
 beforeEach(() => {
-	originalBaseUrl = process.env['BASE_URL']
 	originalPublicBaseUrl = process.env['PUBLIC_BASE_URL']
-	delete process.env['BASE_URL']
 	delete process.env['PUBLIC_BASE_URL']
 })
 
 afterEach(() => {
-	if (originalBaseUrl !== undefined) process.env['BASE_URL'] = originalBaseUrl
-	else delete process.env['BASE_URL']
 	if (originalPublicBaseUrl !== undefined) process.env['PUBLIC_BASE_URL'] = originalPublicBaseUrl
 	else delete process.env['PUBLIC_BASE_URL']
 })
