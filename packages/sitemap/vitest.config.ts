@@ -1,5 +1,5 @@
+import { resolveViteCacheDirectory } from '@goobits/site-primitives/test-storage'
 import { defineConfig } from 'vitest/config'
-import { resolveViteCacheDirectory } from '../../scripts/testStorage.ts'
 
 export default defineConfig({
 	cacheDir: resolveViteCacheDirectory(import.meta.dirname),
