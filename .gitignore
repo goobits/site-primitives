@@ -1,8 +1,10 @@
 node_modules/
+.pnpm-store/
 .turbo/
 .svelte-kit/
 coverage/
 dist/
+build/
 *.tsbuildinfo
 **/node_modules
 **/.turbo
@@ -14,6 +16,19 @@ dist/
 **/.codeatlas/
 **/.codeatlas
 **/.llm
+
+# Environment and local machine files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*-debug.log*
+*.tmp
+*.temp
 
 # Local Shelly queue state
 **/.llm/commit-queue/pending/
