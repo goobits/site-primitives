@@ -28,7 +28,7 @@
 		"esm"
 	],
 	"author": "Goobits",
-	"license": "MIT",
+	"license": "FSL-1.1-ALv2",
 	"homepage": "https://github.com/goobits/site-primitives/tree/main/packages/sitemap#readme",
 	"bugs": "https://github.com/goobits/site-primitives/issues",
 	"repository": {

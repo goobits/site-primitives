@@ -467,4 +467,6 @@ consumers only import the runtime surface they need.
 
 ## License
 
-MIT. See [LICENSE](./LICENSE).
+Licensed under the Functional Source License, Version 1.1, ALv2 Future License.
+Each released version becomes available under Apache License 2.0 two years after
+that version is made available. See [LICENSE](./LICENSE).
