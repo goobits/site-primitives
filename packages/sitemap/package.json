@@ -68,7 +68,6 @@
 		"typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json && svelte-check --workspace src/ui --fail-on-warnings",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"test:coverage": "vitest run --coverage",
-		"clean": "rm -rf node_modules .turbo"
+		"test:coverage": "vitest run --coverage"
 	}
 }
