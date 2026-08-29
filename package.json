@@ -8,7 +8,6 @@
 		"./test-storage": "./scripts/testStorage.ts"
 	},
 	"scripts": {
-		"test": "pnpm -r --if-present test",
 		"typecheck": "pnpm -r --if-present typecheck",
 		"clean": "pnpm -r --if-present clean"
 	},
